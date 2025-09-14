@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 export default function Navbar() {
   return (
     <header className="bg-blue-600 text-white">
-      <div className="max-w-6xl mx-auto px-4 flex justify-between items-center h-16">
+      <div className="max-w-6xl mx-auto px-4 flex justify-between items-center h-16 min-w-screen">
         <div className="text-xl font-bold">ClubConnect</div>
         <nav className="hidden md:flex space-x-6 text-sm text-white font-medium">
           <Link to="/EventCard" className="transform hover:scale-125 transition-transform duration-300 ">Events</Link>
