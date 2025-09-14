@@ -25,30 +25,18 @@ dbConnection()
 app.use(express.json());
 app.use(express.urlencoded({extended:false}))
 
-
-app.use((req, res, next) => {
-  console.log("middleware")
-  next();
-});
-
-
-app.use((req, res, next) => {
-  console.log("middleware")
-  return res.json({message:"hey"})
-});
-
-
-
 //routes
 
 import AdminRoutes from './routes/user.route.js'
 import EventRoutes from './routes/event.route.js'
+import ClubRoutes from './routes/club.route.js'
 
 app.use('/api/users', AdminRoutes)
 app.use('/api/events', EventRoutes)
+app.use('/api/clubs', ClubRoutes)
 
 //running on the port
-const port = process.env.PORT || 3000 
+const port = process.env.PORT || 5000
 app.listen(port, () => {
   console.log(`running on http://localhost:${port}/`);
 });
