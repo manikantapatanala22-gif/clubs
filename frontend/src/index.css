@@ -1,10 +1,16 @@
 @import "tailwindcss";
 
+@theme {
+  --color-brand-primary:#F0F4F8;
+  --color-brand-secondary:#f44c55;
+  --color-brand-nav:#20423f;
 
+}
 html, body, #root {
   margin: 0;
   padding: 0;
   height: 100%;
   width: 100%;
-  background-color: #18181b; /* bg-zinc-900 */
+  background-color: #292929; 
+  overscroll-behavior: none;
 }

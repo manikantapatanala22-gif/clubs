@@ -1,6 +1,5 @@
 import ClubCard from "../components/ClubCard";
-import Richie from '../assets/team/richie.png'
-
+import Richie from '../assets/team/richie.png';
 
 const Clubs = () => {
   const clubsData = [
@@ -27,32 +26,7 @@ const Clubs = () => {
   return (
     <div className="flex flex-col items-center p-4">
       {clubsData.map((club, index) => (
-        <div 
-          key={index} 
-          className="w-full max-w-[600px] h-auto bg-white rounded-lg shadow-xl overflow-hidden flex flex-col md:flex-row my-6"
-        >
-          {/* Responsive Image Section */}
-          <div className="flex-none w-full h-48 md:w-[300px] md:h-auto">
-            <img 
-              className="w-full h-full object-cover" 
-              src={club.imageUrl} 
-              alt={`${club.name} logo`} 
-            />
-          </div>
-
-          {/* Club Info Section */}
-          <div className="p-8 flex-1 flex flex-col justify-center">
-            <h2 className="text-xl font-bold text-gray-800 mb-2">
-              {club.name}
-            </h2>
-            <p className="text-md text-gray-600 font-semibold italic mb-4">
-              {club.tagline}
-            </p>
-            <p className="text-sm text-gray-700 leading-relaxed">
-              {club.description}
-            </p>
-          </div>
-        </div>
+        <ClubCard key={index} club={club} />
       ))}
     </div>
   );

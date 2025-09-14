@@ -10,12 +10,12 @@ function Navbar() {
   ];
 
   return (
-    <nav className="w-full bg-black px-6 py-4 relative">
+    <nav className="fixed w-full bg-brand-nav px-6 py-4 relative">
       {/* Top row: Login */}
       <div className="flex justify-end">
         <Link
           to="/login"
-          className="text-white hover:text-blue-400 transition font-medium text-lg"
+          className="text-brand-primary font-bold hover:text-brand-secondary transition text-lg"
         >
           Login
         </Link>
@@ -23,7 +23,7 @@ function Navbar() {
 
       {/* Middle row: Logo */}
       <div className="flex justify-center py-2">
-        <h1 className="text-2xl font-bold text-blue-400">ClubConnect</h1>
+        <h1 className="text-2xl font-bold text-brand-secondary">ClubConnect</h1>
       </div>
 
       {/* Bottom row: Nav Links */}
@@ -32,7 +32,7 @@ function Navbar() {
           <Link
             key={link.name}
             to={link.path}
-            className="hover:text-blue-400 transition"
+            className="font-bold hover:text-brand-secondary transition"
           >
             {link.name}
           </Link>
