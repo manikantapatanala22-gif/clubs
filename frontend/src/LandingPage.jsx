@@ -1,13 +1,15 @@
 // src/pages/LandingPage.jsx
 // Landing page based on your Figma screenshot
 
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import {ReactRouter} from 'react';
 import EventCard from "./components/EventCard";
 
 export default function LandingPage() {
   const ongoingScrollRef = useRef(null);
   const upcomingScrollRef = useRef(null);
+  const [ongoingHovered, setOngoingHovered] = useState(null);
+  const [upcomingHovered, setUpcomingHovered] = useState(null);
 
   const scrollLeft = (ref) => {
     ref.current.scrollBy({ left: -300, behavior: 'smooth' });
@@ -60,16 +62,40 @@ export default function LandingPage() {
               &#8592;
             </button>
             <div
-              ref={ongoingScrollRef}
-              className="flex space-x-4 overflow-x-auto scrollbar-hide scroll-smooth"
-              style={{ scrollBehavior: "smooth" }}
-            >
-              {ongoingEvents.map(event => (
-                <div key={event.id} className="flex-shrink-0 w-80">
-                  <EventCard {...event} />
-                </div>
-              ))}
-            </div>
+  ref={ongoingScrollRef}
+  className="flex space-x-4 overflow-x-auto scrollbar-hide scroll-smooth"
+  style={{ scrollBehavior: "smooth" }}
+>
+  {ongoingEvents.map((event, index) => {
+    const isHovered = ongoingHovered === index;
+    const isLast = index === ongoingEvents.length - 1;
+    const lastHovered = ongoingHovered === ongoingEvents.length - 1;
+
+    let transform = "none";
+    if (isHovered && isLast) {
+      transform = "translateX(-64px)";
+    } else if (lastHovered) {
+      transform = "translateX(-64px)";
+    }
+
+    return (
+      <div
+        key={event.id}
+        className={`flex-shrink-0 transition-all duration-300 ${
+          isHovered ? "w-96" : "w-80"
+        } ${ongoingHovered !== null && !isHovered ? "mr-4" : ""}`}
+        onMouseEnter={() => setOngoingHovered(index)}
+        onMouseLeave={() => setOngoingHovered(null)}
+        style={{
+          transform,
+          transformOrigin: isLast ? "right center" : "left center",
+        }}
+      >
+        <EventCard {...event} />
+      </div>
+    );
+  })}
+</div>
             <button
               onClick={() => scrollRight(ongoingScrollRef)}
               className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-gray-700 text-white p-2 rounded-full z-10"
@@ -96,11 +122,35 @@ export default function LandingPage() {
               className="flex space-x-4 overflow-x-auto scrollbar-hide scroll-smooth"
               style={{ scrollBehavior: "smooth" }}
             >
-              {upcomingEvents.map(event => (
-                <div key={event.id} className="flex-shrink-0 w-80">
-                  <EventCard {...event} />
-                </div>
-              ))}
+              {upcomingEvents.map((event, index) => {
+                const isHovered = upcomingHovered === index;
+                const isLast = index === upcomingEvents.length - 1;
+                const lastHovered = upcomingHovered === upcomingEvents.length - 1;
+
+                let transform = "none";
+                if (isHovered && isLast) {
+                  transform = "translateX(-64px)";
+                } else if (lastHovered) {
+                  transform = "translateX(-64px)";
+                }
+
+                return (
+                  <div
+                    key={event.id}
+                    className={`flex-shrink-0 transition-all duration-300 ${
+                      isHovered ? "w-96" : "w-80"
+                    } ${upcomingHovered !== null && !isHovered ? "mr-4" : ""}`}
+                    onMouseEnter={() => setUpcomingHovered(index)}
+                    onMouseLeave={() => setUpcomingHovered(null)}
+                    style={{
+                      transform,
+                      transformOrigin: isLast ? "right center" : "left center",
+                    }}
+                  >
+                    <EventCard {...event} />
+                  </div>
+                );
+              })}
             </div>
             <button
               onClick={() => scrollRight(upcomingScrollRef)}
