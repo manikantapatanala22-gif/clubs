@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 // 📦 Club Data (Add more clubs here)
 const clubs = [
@@ -24,7 +25,7 @@ const clubs = [
 ];
 
 // 📘 ClubCard Component
-const ClubCard = ({ name, tagline, description, imageUrl, isHighlighted }) => (
+const ClubCard = ({ name, tagline, description, imageUrl, isHighlighted, onClubPageClick }) => (
   <div
     className={`flex flex-col md:flex-row items-center justify-between gap-6 p-6 rounded-lg border ${
       isHighlighted ? 'border-blue-500' : 'border-gray-200'
@@ -34,7 +35,10 @@ const ClubCard = ({ name, tagline, description, imageUrl, isHighlighted }) => (
       <h2 className="text-2xl md:text-3xl font-bold mb-2">{name}</h2>
       <p className="text-gray-500 italic mb-2">{tagline}</p>
       <p className="text-gray-700 mb-4">{description}</p>
-      <button className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition">
+      <button
+        className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition"
+        onClick={onClubPageClick}
+      >
         Club Page
       </button>
     </div>
@@ -48,10 +52,16 @@ const ClubCard = ({ name, tagline, description, imageUrl, isHighlighted }) => (
 
 // 📄 Main AboutClubs Component
 const AboutClubs = () => {
+  const navigate = useNavigate();
+
+  const handleClubPageClick = () => {
+    navigate('/club-info');
+  };
+
   return (
     <div className="max-w-6xl mx-auto px-4 py-12 space-y-10">
       {clubs.map((club, index) => (
-        <ClubCard key={index} {...club} />
+        <ClubCard key={index} {...club} onClubPageClick={handleClubPageClick} />
       ))}
     </div>
   );
