@@ -1,26 +1,31 @@
-import './App.css'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import LandingPage from './LandingPage'
-import AboutClubs from './components/AboutClubs'
-import Navbar from './components/Navbar'
-import Footer from './components/Footer'
-import ClubInfo from './components/ClubInfo'
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Navbar from "./components/Navbar";
+import Home from "./pages/Home";
+import Events from "./pages/Events";
+import Clubs from "./pages/Clubs";
+import Team from "./pages/Team";
+import Support from "./pages/Support";
+import Login from "./pages/Login";
+import Footer from "./components/Footer";
 
 function App() {
   return (
     <Router>
       <Navbar />
-      <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/EventCard" element={<LandingPage />} />
-        <Route path="/AboutClubs" element={<AboutClubs />} />
-        <Route path="/club-info" element={<ClubInfo />} />
-        <Route path="/our-team" element={<div className="max-w-6xl mx-auto px-4 py-12"><h1>Our Team</h1><p>Page under construction.</p></div>} />
-        <Route path="/support" element={<div className="max-w-6xl mx-auto px-4 py-12"><h1>Support</h1><p>Page under construction.</p></div>} />
-      </Routes>
-      <Footer />
+      <main className="min-h-screen px-4 md:px-8 py-6">
+  <Routes>
+    <Route path="/" element={<Home />} />
+    <Route path="/events" element={<Events />} />
+    <Route path="/clubs" element={<Clubs />} />
+    <Route path="/our-team" element={<Team />} />
+    <Route path="/support" element={<Support />} />
+    <Route path="/login" element={<Login />} />
+  </Routes>
+</main>
+ <Footer />
     </Router>
-  )
+   
+  );
 }
 
-export default App
+export default App;

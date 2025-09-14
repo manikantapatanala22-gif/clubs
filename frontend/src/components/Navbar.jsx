@@ -1,20 +1,45 @@
-// src/components/Navbar.jsx
-import React from "react";
 import { Link } from "react-router-dom";
 
-export default function Navbar() {
+function Navbar() {
+  const links = [
+    { name: "Home", path: "/" },
+    { name: "Events", path: "/events" },
+    { name: "Clubs", path: "/clubs" },
+    { name: "Team", path: "/our-team" },
+    { name: "Support", path: "/support" },
+  ];
+
   return (
-    <header className="bg-blue-600 text-white">
-      <div className="max-w-6xl mx-auto px-4 flex justify-between items-center h-16 min-w-screen">
-        <div className="text-xl font-bold">ClubConnect</div>
-        <nav className="hidden md:flex space-x-6 text-sm text-white font-medium">
-          <Link to="/EventCard" className="transform hover:scale-125 transition-transform duration-300 ">Events</Link>
-          <Link to="/AboutClubs" className="transform hover:scale-125 transition-transform duration-300">About Clubs</Link>
-          <Link to="/our-team" className="transform hover:scale-125 transition-transform duration-300">Our Team</Link>
-          <Link to="/support" className="transform hover:scale-125 transition-transform duration-300">Support</Link>
-        </nav>
-        <button className="ml-4 bg-white text-black-900 px-4 py-1 rounded-md text-sm font-medium shadow transform hover:scale-90 transition-transform duration-300 hover:bg-gray-100">Log In</button>
+    <nav className="w-full bg-black px-6 py-4 relative">
+      {/* Top row: Login */}
+      <div className="flex justify-end">
+        <Link
+          to="/login"
+          className="text-white hover:text-blue-400 transition font-medium text-lg"
+        >
+          Login
+        </Link>
       </div>
-    </header>
+
+      {/* Middle row: Logo */}
+      <div className="flex justify-center py-2">
+        <h1 className="text-2xl font-bold text-blue-400">ClubConnect</h1>
+      </div>
+
+      {/* Bottom row: Nav Links */}
+      <div className="flex justify-center flex-wrap gap-6 text-white text-lg font-medium py-2">
+        {links.map((link) => (
+          <Link
+            key={link.name}
+            to={link.path}
+            className="hover:text-blue-400 transition"
+          >
+            {link.name}
+          </Link>
+        ))}
+      </div>
+    </nav>
   );
 }
+
+export default Navbar;
