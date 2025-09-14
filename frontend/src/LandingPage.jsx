@@ -3,9 +3,7 @@
 
 import React, { useRef } from "react";
 import {ReactRouter} from 'react';
-import Navbar from "./components/Navbar"
 import EventCard from "./components/EventCard";
-import Footer from "./components/Footer";
 
 export default function LandingPage() {
   const ongoingScrollRef = useRef(null);
@@ -43,7 +41,6 @@ export default function LandingPage() {
 
   return (
     <div className="flex flex-col min-h-screen min-w-screen">
-      <Navbar />
       <main className="flex-1 max-w-screen px-4 py-12">
         <div className="text-center max-w-2xl mx-auto">
           <p className="text-lg text-white">
@@ -115,7 +112,6 @@ export default function LandingPage() {
           </div>
         </section>
       </main>
-      <Footer />
     </div>
   );
 }
