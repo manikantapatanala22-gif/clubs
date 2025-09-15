@@ -45,7 +45,7 @@ const members = [
     instagram: "https://www.instagram.com/rishi.____.05/",
   },
   {
-    name: "Manda",
+    name: "Sahithi Manda",
     title: "Morale Support",
     tagline: "Rich people",
     image: Sahithi,
