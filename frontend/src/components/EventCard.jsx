@@ -1,4 +1,4 @@
-// src/components/EventCard.jsx
+
 import React from "react";
 
 export default function EventCard({ image, title, description }) {
