@@ -1,50 +1,55 @@
 // src/pages/Team.jsx
 import TeamCard from "../components/TeamCard";
 import Richie from "../assets/team/richie.png";
+import Deva from "../assets/team/deva.png"
+import Vishnu from "../assets/team/vishnu.png"
+import Manikanta from "../assets/team/manikanta.png"
+import Rishi from "../assets/team/rishi.png"
+import Sahithi from "../assets/team/sahithi.png"
 
 
 const members = [
   {
     name: "Richard Gomes",
     title: "Fake CEO 🥵",
-    tagline: "surinder the bottle",
+    tagline: "Surinder The Bottle",
     image: Richie,
     instagram: "https://www.instagram.com/drivin.exe/",
   },
   {
     name: "Deva Vrata",
     title: "Fake CTO 😎",
-    tagline: "nene",
-    image: null,
-    instagram: null,
+    tagline: "Surinder Evaru?",
+    image: Deva,
+    instagram: "https://www.instagram.com/redcreeper19/",
   },
   {
     name: "Vishnu",
     title: "Java System Designer🤫",
-    tagline: "c/o PP",
-    image: null,
-    instagram: null,
+    tagline: "Tagline cannot contain his genius",
+    image: Vishnu,
+    instagram: "https://www.instagram.com/spidermiles120/",
   },
   {
     name: "Manikanta",
     title: "Kamal Hassan😛",
-    tagline: "chick magnet",
-    image: null,
-    instagram: null,
+    tagline: "Chick Magnet",
+    image: Manikanta,
+    instagram: "https://www.instagram.com/maniii_ii2/",
   },
   {
     name: "Rishi Shankar",
     title: "Canva Developer",
-    tagline: "chick magnet + pullihora",
-    image: null,
-    instagram: null,
+    tagline: "Chick Magnet + Pullihora",
+    image: Rishi,
+    instagram: "https://www.instagram.com/rishi.____.05/",
   },
   {
-    name: "Manda",
+    name: "Sahithi Manda",
     title: "Morale Support",
-    tagline: "10 wine shops",
-    image: null,
-    instagram: null,
+    tagline: "Rich people",
+    image: Sahithi,
+    instagram: "https://www.instagram.com/_.sahithigoud._/",
   },
 ];
 
