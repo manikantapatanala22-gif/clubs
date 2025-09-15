@@ -89,7 +89,7 @@ export default function Support() {
         <p className="text-gray-400 text-lg mb-4">
           Still need help?
         </p>
-        <a href="mailto:richardgomesxd@gmail.com?subject=New%20Support%20Question" className="bg-brand-secondary text-white font-bold py-3 px-8 rounded-full shadow-lg hover:bg-red-700 transition transform hover:scale-105">
+        <a href="mailto:richardgomesxd@gmail.com?subject=New%20Support%20Question" className="bg-brand-secondary text-white font-bold py-3 px-8 rounded-full shadow-lg hover:bg-red-600 transition transform hover:scale-105">
           Ask a New Question
         </a>
       </div>
