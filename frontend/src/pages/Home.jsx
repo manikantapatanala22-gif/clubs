@@ -1,23 +1,5 @@
 import { motion } from "framer-motion";
 
-export default function Home() {
-  return (
-    <motion.div
-      variants={pageVariants}
-      initial="initial"
-      animate="animate"
-      exit="exit"
-      transition={{ duration: 0.6 }}
-    >
-      <>
-        <div className="bg-zinc-900">
-          <h1 className="text-white font-bold">Home Page</h1>
-        </div>
-      </>
-    </motion.div>
-  );
-}
-
 const pageVariants = {
   initial: {
     opacity: 0,
@@ -32,3 +14,21 @@ const pageVariants = {
     scale: 1.05,
   },
 };
+
+export default function Home() {
+  return (
+    <>
+      <motion.div
+        variants={pageVariants}
+        initial="initial"
+        animate="animate"
+        exit="exit"
+        transition={{ duration: 0.6 }}
+      >
+        <div className="bg-zinc-900">
+          <h1 className="text-white font-bold">Home Page</h1>
+        </div>
+      </motion.div>
+    </>
+  );
+}
