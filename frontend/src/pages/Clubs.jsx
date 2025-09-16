@@ -2,7 +2,7 @@ import ClubCard from "../components/ClubCard";
 import clubsData from "../data/clubsData";
 
 const Clubs = () => {
-// Use local frontend data instead of fetching from backend
+  // Use local frontend data instead of fetching from backend
   const clubs = clubsData;
 
   return (
