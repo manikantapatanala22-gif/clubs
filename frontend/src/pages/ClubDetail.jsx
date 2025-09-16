@@ -1,32 +1,11 @@
-import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import clubsData from "../data/clubsData";
 
 const ClubDetail = () => {
   const { id } = useParams();
-  const [club, setClub] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  // Find the club from local data instead of fetching from backend
+  const club = clubsData.find(c => c.id === parseInt(id));
 
-  useEffect(() => {
-    fetch(`http://localhost:5000/api/clubs/${id}`)
-      .then(res => {
-        if (!res.ok) {
-          throw new Error('Failed to fetch club details');
-        }
-        return res.json();
-      })
-      .then(data => {
-        setClub(data);
-        setLoading(false);
-      })
-      .catch(err => {
-        setError(err.message);
-        setLoading(false);
-      });
-  }, [id]);
-
-  if (loading) return <div className="text-center p-4">Loading club details...</div>;
-  if (error) return <div className="text-center p-4">Error: {error}</div>;
   if (!club) return <div className="text-center p-4">Club not found</div>;
 
   return (
