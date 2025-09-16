@@ -8,25 +8,30 @@ import Team from "./pages/Team";
 import Support from "./pages/Support";
 import Login from "./pages/Login";
 import Footer from "./components/Footer";
+import { useLocation } from "react-router-dom";
+import { AnimatePresence } from "framer-motion";
 
 function App() {
+  const location = useLocation();
+
   return (
-    <Router>
+    <>
       <Navbar />
       <main className="min-h-screen px-4 md:px-8 py-6">
-  <Routes>
-    <Route path="/" element={<Home />} />
-    <Route path="/events" element={<Events />} />
-    <Route path="/clubs" element={<Clubs />} />
-    <Route path="/clubs/:id" element={<ClubDetail />} />
-    <Route path="/our-team" element={<Team />} />
-    <Route path="/support" element={<Support />} />
-    <Route path="/login" element={<Login />} />
-  </Routes>
-</main>
- <Footer />
-    </Router>
-   
+        <AnimatePresence mode="wait">
+          <Routes location={location} key={location.pathname}>
+            <Route path="/" element={<Home />} />
+            <Route path="/events" element={<Events />} />
+            <Route path="/clubs" element={<Clubs />} />
+            <Route path="/clubs/:id" element={<ClubDetail />} />
+            <Route path="/our-team" element={<Team />} />
+            <Route path="/support" element={<Support />} />
+            <Route path="/login" element={<Login />} />
+          </Routes>
+        </AnimatePresence>
+      </main>
+      <Footer />
+    </>
   );
 }
 
