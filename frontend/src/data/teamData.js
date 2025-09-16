@@ -8,42 +8,36 @@ import Sahithi from "../assets/team/sahithi.png";
 const teamsData = [
   {
     name: "Richard Gomes",
-    title: "Fake CEO 🥵",
     tagline: "Surinder The Bottle",
     image: Richie,
     instagram: "https://www.instagram.com/richxiee/",
   },
   {
     name: "Deva Vrata",
-    title: "Fake CTO 😎",
     tagline: "Surinder Evaru?",
     image: Deva,
     instagram: "https://www.instagram.com/redcreeper19/",
   },
   {
     name: "Vishnu",
-    title: "Java System Designer🤫",
     tagline: "Tagline cannot contain his genius",
     image: Vishnu,
     instagram: "https://www.instagram.com/spidermiles120/",
   },
   {
     name: "Manikanta",
-    title: "Kamal Hassan😛",
     tagline: "Chick Magnet",
     image: Manikanta,
     instagram: "https://www.instagram.com/maniii_ii2/",
   },
   {
     name: "Rishi Shankar",
-    title: "Canva Developer",
     tagline: "Chick Magnet + Pullihora",
     image: Rishi,
     instagram: "https://www.instagram.com/rishi.____.05/",
   },
   {
     name: "Sahithi Manda",
-    title: "Morale Support",
     tagline: "Rich people",
     image: Sahithi,
     instagram: "https://www.instagram.com/_.sahithigoud._/",
