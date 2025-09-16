@@ -1,7 +1,5 @@
 -----
 
-### **`README.md`**
-
 ## ClubConnect Web App
 
 This is the official repository for ClubConnect, a web application designed to connect students with various clubs and events on campus. This README provides comprehensive instructions on how to set up and run both the front-end and back-end services locally.
@@ -12,7 +10,7 @@ Follow these steps to get a local copy of the project up and running.
 
 -----
 
-### **Prerequisites**
+### **Have this already!**
 
 You need to have the following software installed on your machine:
 
@@ -65,7 +63,7 @@ You need to have the following software installed on your machine:
     ```bash
     npm start
     ```
-    This will start the server, which will be accessible at **http://localhost:5000**.
+    This will start the server, which will be accessible at *example:* **http://localhost:5000**.
 
 -----
 

@@ -7,6 +7,7 @@ import Team from "./pages/Team";
 import Support from "./pages/Support";
 import Login from "./pages/Login";
 import Footer from "./components/Footer";
+import ClubDetail from "./pages/ClubDetail";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
     <Route path="/events" element={<Events />} />
     <Route path="/clubs" element={<Clubs />} />
     <Route path="/our-team" element={<Team />} />
+    <Route path="/clubs/:id" element={<ClubDetail />} />
     <Route path="/support" element={<Support />} />
     <Route path="/login" element={<Login />} />
   </Routes>
