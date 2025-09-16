@@ -40,39 +40,14 @@ const genericQuestions = [
   {
     question: "Is there a mobile app available?",
     answer:
-      "Currently, there is no dedicated mobile app, but our website is fully responsive and works great on all mobile devices.",
-  },
-  {
-    question: "How can I contact the team for support?",
-    answer:
-      'If your question is not listed here, you can reach out to us by clicking the "Ask a New Question" button below. We’ll get back to you as soon as possible.',
-  },
-  {
-    question: "Can I suggest a new feature?",
-    answer:
-      'Yes! We love hearing from our community. You can use the "Contact Us" link to send us your feedback and feature suggestions.',
-  },
-  {
-    question: "Is my personal information safe?",
-    answer:
-      "We take your privacy seriously. Your personal information is protected with industry-standard encryption and security measures. We do not share your data with third parties.",
-  },
-  {
-    question: "How do I post a new event?",
-    answer:
-      "Event posting is available for club administrators. Please contact your club’s leader or an admin for details on how to get your event listed on the page.",
-  },
-  {
-    question: "Where can I find club-specific information?",
-    answer:
-      'Club-specific information, including their mission, members, and upcoming events, can be found on each club’s individual page. Just navigate to the "Clubs" section.',
+      "Currently, there is no dedicated mobile app, but our website is fully responsive and optimized for mobile browsers.",
   },
 ];
 
-export default function Support() {
+const Support = () => {
   const [openIndex, setOpenIndex] = useState(null);
 
-  const toggleAnswer = (index) => {
+  const toggleAccordion = (index) => {
     setOpenIndex(openIndex === index ? null : index);
   };
 
@@ -83,72 +58,82 @@ export default function Support() {
       animate="animate"
       exit="exit"
       transition={{ duration: 0.6 }}
+      className="max-w-4xl mx-auto p-4 md:p-8"
     >
-      <div className="min-h-screen p-8 bg-[#292929] text-gray-300 flex flex-col items-center">
-        <h1 className="text-3xl sm:text-4xl font-extrabold text-brand-primary text-center mb-4">
-          Frequently Asked Questions
-        </h1>
-        <p className="text-gray-400 text-center text-lg mb-8 max-w-2xl">
-          Find quick answers to the most common questions about our platform.
+      <div className="text-center mb-10">
+        <h1 className="text-4xl font-extrabold text-brand-primary">Support & FAQ</h1>
+        <p className="mt-4 text-brand-secondary text-lg">
+          Find answers to the most common questions about ClubConnect.
         </p>
+      </div>
 
-        {/* FAQ Accordion */}
-        <div className="w-full max-w-4xl space-y-4">
-          {genericQuestions.map((item, index) => (
+      <div className="bg-white rounded-lg shadow-xl overflow-hidden">
+        {genericQuestions.map((item, index) => (
+          <div
+            key={index}
+            className="border-b border-brand-accent last:border-b-0"
+          >
+            {/* Question (Accordion Header) */}
             <div
-              key={index}
-              className="bg-brand-nav rounded-lg shadow-md overflow-hidden cursor-pointer"
-              onClick={() => toggleAnswer(index)}
+              className={`p-6 cursor-pointer flex justify-between items-center transition-colors duration-200 ${
+                openIndex === index ? "bg-brand-accent text-white" : "bg-white hover:bg-gray-100"
+              }`}
+              onClick={() => toggleAccordion(index)}
             >
-              {/* Question */}
-              <div className="flex justify-between items-center p-6 text-white">
-                <h3 className="text-lg font-semibold">{item.question}</h3>
-                <span
-                  className={`transform transition-transform duration-300 ${
-                    openIndex === index ? "rotate-180" : ""
-                  }`}
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 w-6"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M19 9l-7 7-7-7"
-                    />
-                  </svg>
-                </span>
-              </div>
-
-              {/* Answer (conditionally rendered) */}
-              <div
-                className={`p-6 bg-[#20423f] transition-all duration-300 ease-in-out ${
-                  openIndex === index
-                    ? "max-h-96 opacity-100"
-                    : "max-h-0 opacity-0"
+              <h3
+                className={`text-lg md:text-xl font-semibold transition-colors duration-200 ${
+                  openIndex === index ? "text-white" : "text-brand-primary"
                 }`}
               >
-                <p className="text-gray-400">{item.answer}</p>
-              </div>
+                {item.question}
+              </h3>
+              <span
+                className={`transform transition-transform duration-300 ${
+                  openIndex === index ? "rotate-180 text-white" : "rotate-0 text-brand-secondary"
+                }`}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M19 9l-7 7-7-7"
+                  />
+                </svg>
+              </span>
             </div>
-          ))}
-        </div>
 
-        <div className="mt-12 text-center">
-          <p className="text-gray-400 text-lg mb-4">Still need help?</p>
-          <a
-            href="mailto:richardgomesxd@gmail.com?subject=New%20Support%20Question"
-            className="bg-brand-secondary text-white font-bold py-3 px-8 rounded-full shadow-lg hover:bg-red-600 transition transform hover:scale-105"
-          >
-            Ask a New Question
-          </a>
-        </div>
+            {/* Answer (conditionally rendered) */}
+            <div
+              className={`p-6 transition-all duration-300 ease-in-out bg-brand-nav ${
+                openIndex === index ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+              }`}
+            >
+              <p className="text-gray-400">
+                {item.answer}
+              </p>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div className="mt-12 text-center">
+        <p className="text-brand-secondary text-lg mb-4">Still need help?</p>
+        <a
+          href="mailto:richardgomesxd@gmail.com?subject=New%20Support%20Question"
+          className="inline-block bg-brand-accent text-white font-bold py-3 px-8 rounded-full shadow-lg hover:bg-white hover:text-brand-accent transition transform hover:scale-105"
+        >
+          Ask a New Question
+        </a>
       </div>
     </motion.div>
   );
-}
+};
+
+export default Support;

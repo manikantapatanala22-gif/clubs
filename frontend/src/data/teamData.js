@@ -11,7 +11,7 @@ const teamsData = [
     title: "Fake CEO 🥵",
     tagline: "Surinder The Bottle",
     image: Richie,
-    instagram: "https://www.instagram.com/drivin.exe/",
+    instagram: "https://www.instagram.com/richxiee/",
   },
   {
     name: "Deva Vrata",

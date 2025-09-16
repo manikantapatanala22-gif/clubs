@@ -1,4 +1,5 @@
-import { Routes, Route, useLocation, useOutlet } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
+import useScrollToTop from "./hooks/useScrollToTop";
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import Events from "./pages/Events";
@@ -12,14 +13,14 @@ import { AnimatePresence } from "framer-motion";
 
 function App() {
   const location = useLocation();
-  const outlet = useOutlet();
+
+  useScrollToTop();
 
   return (
     <>
       <Navbar />
-      <main className="min-h-screen px-4 md:px-8 py-6">
+      <main className="min-h-screen flex justify-center items-center px-4 md:px-8 py-6">
         <AnimatePresence mode="wait">
-          {outlet && React.cloneElement(outlet, { key: location.pathname })}
           <Routes location={location} key={location.pathname}>
             <Route path="/" element={<Home />} />
             <Route path="/events" element={<Events />} />

@@ -25,8 +25,9 @@ export default function Home() {
         exit="exit"
         transition={{ duration: 0.6 }}
       >
-        <div className="bg-zinc-900">
-          <h1 className="text-white font-bold">Home Page</h1>
+        <div className="bg-white p-6 rounded-lg shadow-md">
+          <h1 className="text-brand-primary text-3xl font-bold">Welcome!</h1>
+          {/* Add your homepage content here */}
         </div>
       </motion.div>
     </>

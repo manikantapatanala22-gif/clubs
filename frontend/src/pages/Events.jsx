@@ -25,8 +25,9 @@ export default function Events() {
       transition={{ duration: 0.6 }}
     >
       <>
-        <div className="bg-zinc-900">
-          <h1 className="text-brand-primary font-bold">Our Events</h1>
+        <div className="bg-white p-6 rounded-lg shadow-md">
+          <h1 className="text-brand-primary text-3xl font-bold">Our Events</h1>
+          {/* Add your event list or other content here */}
         </div>
       </>
     </motion.div>

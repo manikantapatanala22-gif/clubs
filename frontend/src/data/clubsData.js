@@ -1,17 +1,33 @@
+import placeholder from "../assets/placeholder.svg"
 const clubsData = [
   {
     id: 1,
     name: 'Xpressionz Club',
     tagline: '“Where imagination meets the creativity on the stage”',
-    description: `Xpressionz Club, the largest in our college, is a vibrant platform for creativity and talent. More than a club, it builds confidence, teamwork, and lasting memories.`,
-    imageUrl: '/src/assets/clubs/exp.jpeg',
+    description: `Xpressionz Club, the largest in our college, is a vibrant platform for creativity and talent. More than a club,
+     it builds confidence, teamwork, and lasting memories.`,
+    imageUrl: placeholder,
   },
   {
     id: 2,
     name: 'VOICE',
     tagline: 'Inspiration to transformation– Lets continue the passion of making the difference',
-    description: `VOICE, founded in 2001-02, nurtures student talent and entrepreneurial spirit. It hosts events like debates, case studies, JAM, and mock stock exchange.`,
-    imageUrl: '/src/assets/clubs/exp.jpeg',
+    description: `VOICE, founded in 2001-02, nurtures student talent and entrepreneurial spirit. It hosts events like debates, case studies, JAM, and mock stock exchange.
+    
+    Xpressionz Club, the largest in our college, is a vibrant platform for creativity and talent. More than a club,
+     it builds confidence, teamwork, and lasting memories.Xpressionz Club, the largest in our college, is a vibrant platform for creativity and talent. More than a club,
+     it builds confidence, teamwork, and lasting memories.Xpressionz Club, the largest in our college, is a vibrant platform for creativity and talent. More than a club,
+     it builds confidence, teamwork, and lasting memories.Xpressionz Club, the largest in our college, is a vibrant platform for creativity and talent. More than a club,
+     it builds confidence, teamwork, and lasting memories.Xpressionz Club, the largest in our college, is a vibrant platform for creativity and talent. More than a club,
+     it builds confidence, teamwork, and lasting memories.Xpressionz Club, the largest in our college, is a vibrant platform for creativity and talent. More than a club,
+     it builds confidence, teamwork, and lasting memories.Xpressionz Club, the largest in our college, is a vibrant platform for creativity and talent. More than a club,
+     it builds confidence, teamwork, and lasting memories.Xpressionz Club, the largest in our college, is a vibrant platform for creativity and talent. More than a club,
+     it builds confidence, teamwork, and lasting memories.Xpressionz Club, the largest in our college, is a vibrant platform for creativity and talent. More than a club,
+     it builds confidence, teamwork, and lasting memories.Xpressionz Club, the largest in our college, is a vibrant platform for creativity and talent. More than a club,
+     it builds confidence, teamwork, and lasting memories.Xpressionz Club, the largest in our college, is a vibrant platform for creativity and talent. More than a club,
+     it builds confidence, teamwork, and lasting memories.Xpressionz Club, the largest in our college, is a vibrant platform for creativity and talent. More than a club,
+     it builds confidence, teamwork, and lasting memories.`,
+    imageUrl: '/src/assets/clubs/exp.jpeg'|| placeholder,
   },
   {
     id: 3,

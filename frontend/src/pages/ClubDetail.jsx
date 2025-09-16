@@ -1,25 +1,29 @@
 import { useParams } from "react-router-dom";
 import clubsData from "../data/clubsData";
-
-const ClubDetail = () => {
+function ClubDetail() {
   const { id } = useParams();
-  // Find the club from local data instead of fetching from backend
   const club = clubsData.find(c => c.id === parseInt(id));
 
   if (!club) return <div className="text-center p-4">Club not found</div>;
 
   return (
-    <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg mt-6">
-      <h1 className="text-3xl font-bold mb-4">{club.name}</h1>
-      <p className="italic text-gray-600 mb-4">{club.tagline}</p>
-      <img
-        src={club.imageUrl}
-        alt={`${club.name} logo`}
-        className="w-full max-h-96 object-cover rounded mb-6"
-      />
-      <p className="text-gray-800 leading-relaxed">{club.description}</p>   {/*Change description to fullDescription for updated full club details*/}
+    <div className="w-11/12 lg:w-4/5 p-6 bg-white rounded-lg shadow-lg">
+      <div className="flex flex-col lg:flex-row items-center lg:items-start lg:space-x-8">
+        <div className="flex-shrink-0 mb-6 lg:mb-0 lg:w-1/4">
+          <img
+            src={club.imageUrl}
+            alt={`${club.name} logo`}
+            className="w-full h-auto object-cover rounded"
+          />
+        </div>
+        <div className="flex-1 text-center lg:text-left">
+          <h1 className="text-3xl font-bold mb-2 text-brand-primary">{club.name}</h1>
+          <p className="italic text-brand-accent mb-4">{club.tagline}</p>
+          <p className="text-brand-secondary leading-relaxed">{club.description}</p>
+        </div>
+      </div>
     </div>
   );
-};
+}
 
 export default ClubDetail;

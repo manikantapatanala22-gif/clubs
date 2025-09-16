@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
-import  { useState } from "react";
+import { useState } from "react";
+import Logo from "../assets/Logo";
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -19,14 +20,11 @@ function Navbar() {
   return (
     <nav className="bg-brand-nav p-4 shadow-lg sticky top-0 z-50">
       <div className="container mx-auto flex items-center justify-between flex-wrap">
-        {/* Logo and Home Link */}
-        <Link to="/" className="text-2xl font-bold text-brand-secondary">
-          ClubConnect
+        <Link to="/" className="text-2xl font-bold">
+          <Logo />
         </Link>
-
-        {/* Mobile menu button */}
         <div className="block lg:hidden">
-          <button onClick={toggleMenu} className="flex items-center px-3 py-2 border rounded text-white border-white hover:text-brand-primary hover:border-brand-primary">
+          <button onClick={toggleMenu} className="flex items-center px-3 py-2 border rounded text-white border-white hover:text-brand-accent hover:border-brand-accent">
             <svg
               className="fill-current h-3 w-3"
               viewBox="0 0 20 20"
@@ -37,30 +35,26 @@ function Navbar() {
             </svg>
           </button>
         </div>
-
-        {/* Nav Links and Login - Hidden on mobile by default */}
         <div className={`w-full block flex-grow lg:flex lg:items-center lg:w-auto ${isOpen ? "block" : "hidden"}`}>
-          <div className="text-lg lg:flex-grow font-medium text-white lg:flex lg:justify-center">
+          <div className="text-lg lg:flex-grow font-medium text-gray-200 lg:flex lg:justify-center text-center">
             {links.map((link) => (
               <Link
                 key={link.name}
                 to={link.path}
-                className="block mt-4 lg:inline-block lg:mt-0 lg:mx-4 hover:text-brand-primary transition font-bold"
-                onClick={() => setIsOpen(false)} // Close menu on link click
+                className="block mt-4 lg:inline-block lg:mt-0 lg:mx-4 hover:text-brand-accent transition font-bold text-white"
+                onClick={() => setIsOpen(false)}
               >
                 {link.name}
               </Link>
             ))}
           </div>
-
-          {/* Login Link */}
-          <div>
+          <div className="text-center">
             <Link
               to="/login"
-              className="block mt-4 text-xl lg:inline-block lg:mt-0 text-brand-primary hover:text-brand-secondary font-bold transition lg:ml-4"
+              className="block mt-4 lg:inline-block lg:mt-0 text-white font-bold transition lg:ml-4 py-2 px-4 rounded-full bg-brand-accent hover:bg-white hover:text-brand-accent"
               onClick={() => setIsOpen(false)}
             >
-              Login
+             For Clubs 
             </Link>
           </div>
         </div>
