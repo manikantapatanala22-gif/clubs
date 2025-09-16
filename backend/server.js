@@ -5,7 +5,11 @@ import dotenv from "dotenv";
 dotenv.config();
 const app = express();
 
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:5173', 
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
 
 //db connection
 const dbConnection = async () => {
@@ -26,7 +30,6 @@ app.use(express.json());
 app.use(express.urlencoded({extended:false}))
 
 //routes
-
 import AdminRoutes from './routes/user.route.js'
 import EventRoutes from './routes/event.route.js'
 import ClubRoutes from './routes/club.route.js'
@@ -41,7 +44,3 @@ app.listen(port, () => {
   console.log(`running on http://localhost:${port}/`);
 });
 
-//CORS implementation
-app.get("/api/clubs", (req,res) => {
-  res.json({message : "Clubs data sent successfully" });
-});
