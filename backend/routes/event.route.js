@@ -1,12 +1,17 @@
 import express from "express";
-import {eventsList, eventsPost, eventEdit, eventDeletion} from "../controllers/event.controller.js";
+import { eventsList, eventsPost, myEvents, eventEdit, eventDeletion } from "../controllers/event.controller.js";
+import { protect } from '../middleware/auth.middleware.js';
+import upload from '../middleware/multer.js';
+
 const router = express.Router();
 
+// Public Routes (Visitors)
+router.get("/", eventsList);
 
-router.get("/",eventsList);
-router.post("/",eventsPost);
-router.put("/:id",eventEdit)
-router.delete("/:id",eventDeletion);
+// Protected Routes (Club Members)
+router.get("/my", protect, myEvents);
+router.post("/", protect, upload.single('eventImage'), eventsPost);
+router.put("/:id", protect, eventEdit);
+router.delete("/:id", protect, eventDeletion);
 
-
-export default router
+export default router;

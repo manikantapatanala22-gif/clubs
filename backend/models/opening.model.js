@@ -1,25 +1,25 @@
 import mongoose from "mongoose";
 
-const newEventSchema = mongoose.Schema({
-  eventName: {
+const openingSchema = mongoose.Schema({
+  role: {
     type: String,
     required: true,
   },
-  eventDate: {
+  openingFor: {
     type: String,
     required: true,
   },
-  eventVenue: {
+  description: {
     type: String,
     required: true,
   },
-  eventImage: {
+  deadline: {
+    type: String,
+    required: true,
+  },
+  image: {
     type: String,
     required: false,
-  },
-  eventDescription: {
-    type: String,
-    required: true,
   },
   createdBy: {
     type: mongoose.Schema.Types.ObjectId,
@@ -28,5 +28,5 @@ const newEventSchema = mongoose.Schema({
   },
 });
 
-const NewEvent = mongoose.model("NewEvent", newEventSchema);
-export default NewEvent;
+const Opening = mongoose.model("Opening", openingSchema);
+export default Opening;

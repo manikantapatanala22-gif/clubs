@@ -17,7 +17,7 @@ const TeamCard = ({ name, title, tagline, image, instagram }) => {
           rel="noopener noreferrer"
           className="bg-brand-accent text-white py-2 px-4 rounded-full font-bold hover:bg-white hover:text-brand-accent transition-colors duration-200"
         >
-          Instagram
+          !nstagram
         </a>
       )}
     </div>

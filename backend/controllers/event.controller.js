@@ -1,17 +1,8 @@
 import NewEvent from "../models/eventregistration.model.js";
+import { cloudinary } from '../config/cloudinary.js';
 
-const eventsPost = async (req, res) => {
-  try {
-    const EventsPost = await NewEvent.create(req.body);
-    if (EventsPost) res.status(200).json(EventsPost);
-    // for the team, the .status is not necessary it just shows the req is successful while api testing
-    else res.status(400).json({ message: "Didn't Post !" });
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
-
-const eventsList = async (req, res) => {
+// Lists all events (Public)
+export const eventsList = async (req, res) => {
   try {
     const newEventsList = await NewEvent.find();
     if (newEventsList) res.status(200).json(newEventsList);
@@ -21,27 +12,83 @@ const eventsList = async (req, res) => {
   }
 };
 
-const eventDeletion = async (req, res) => {
+// Posts a new event (Protected - Club Member)
+export const eventsPost = async (req, res) => {
   try {
-    const EventDeletion = await NewEvent.findByIdAndDelete(req.params.id);
-    if (EventDeletion) res.status(200).json({ message: "Deleted Event" });
-    else res.status(400).json({ message: "No Events !" });
+    const { eventName, eventDate, eventVenue, eventDescription } = req.body;
+    const { _id } = req.user; // Get user ID from the protected middleware
+
+    let imageUrl = null;
+    if (req.file) {
+      const result = await cloudinary.uploader.upload(req.file.path);
+      imageUrl = result.secure_url;
+    }
+
+    const newEvent = await NewEvent.create({
+      eventName,
+      eventDate,
+      eventVenue,
+      eventDescription,
+      eventImage: imageUrl,
+      createdBy: _id, // Link to the creator
+    });
+
+    if (newEvent) res.status(200).json(newEvent);
+    else res.status(400).json({ message: "Didn't Post !" });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 
-const eventEdit = async (req, res) => {
+// Deletes an event (Protected - Club Member)
+export const eventDeletion = async (req, res) => {
   try {
+    const event = await NewEvent.findById(req.params.id);
+    if (!event) {
+      return res.status(404).json({ message: "Event not found" });
+    }
 
-    const editDetails = await NewEvent.findByIdAndUpdate(req.params.id , req.body, {
+    // Check if the logged-in user is the creator
+    if (event.createdBy.toString() !== req.user._id.toString()) {
+      return res.status(401).json({ message: "Not authorized to delete this event" });
+    }
+
+    await event.deleteOne();
+    res.status(200).json({ message: "Event deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// Get events created by the logged-in user (Protected - Club Member)
+export const myEvents = async (req, res) => {
+  try {
+    const events = await NewEvent.find({ createdBy: req.user._id });
+    res.status(200).json(events);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// Edits an event (Protected - Club Member)
+export const eventEdit = async (req, res) => {
+  try {
+    const event = await NewEvent.findById(req.params.id);
+    if (!event) {
+      return res.status(404).json({ message: "Event not found" });
+    }
+
+    // Check if the logged-in user is the creator
+    if (event.createdBy.toString() !== req.user._id.toString()) {
+      return res.status(401).json({ message: "Not authorized to edit this event" });
+    }
+
+    const editDetails = await NewEvent.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
       runValidators: true,
     });
-    if (editDetails) res.status(200).json(editDetails);
+    res.status(200).json(editDetails);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
-
-export { eventsList, eventsPost, eventEdit, eventDeletion };

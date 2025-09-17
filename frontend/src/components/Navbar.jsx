@@ -50,7 +50,7 @@ function Navbar() {
           </div>
           <div className="text-center">
             <Link
-              to="/login"
+              to="/for-clubs"
               className="block mt-4 lg:inline-block lg:mt-0 text-white font-bold transition lg:ml-4 py-2 px-4 rounded-full bg-brand-accent hover:bg-white hover:text-brand-accent"
               onClick={() => setIsOpen(false)}
             >

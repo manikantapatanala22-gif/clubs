@@ -1,3 +1,4 @@
+// src/App.jsx
 import { Routes, Route, useLocation } from "react-router-dom";
 import useScrollToTop from "./hooks/useScrollToTop";
 import Navbar from "./components/Navbar";
@@ -7,6 +8,9 @@ import Clubs from "./pages/Clubs";
 import Team from "./pages/Team";
 import Support from "./pages/Support";
 import Login from "./pages/Login";
+import AdminLogin from "./pages/AdminLogin";
+import ClubManagement from "./pages/ClubManagement";
+import DashBoard from "./pages/DashBoard";
 import Footer from "./components/Footer";
 import ClubDetail from "./pages/ClubDetail";
 import { AnimatePresence } from "framer-motion";
@@ -28,7 +32,10 @@ function App() {
             <Route path="/clubs/:id" element={<ClubDetail />} />
             <Route path="/our-team" element={<Team />} />
             <Route path="/support" element={<Support />} />
-            <Route path="/login" element={<Login />} />
+            <Route path="/for-clubs" element={<Login />} />
+            <Route path="/admin" element={<AdminLogin />} />
+            <Route path="/club-management" element={<ClubManagement />} />
+            <Route path="/dashboard" element={<DashBoard />} />
           </Routes>
         </AnimatePresence>
       </main>

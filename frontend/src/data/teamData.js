@@ -26,13 +26,13 @@ const teamsData = [
   },
   {
     name: "Manikanta",
-    tagline: "Chick Magnet",
+    tagline: "Andhagaadu",
     image: Manikanta,
     instagram: "https://www.instagram.com/maniii_ii2/",
   },
   {
     name: "Rishi Shankar",
-    tagline: "Chick Magnet + Pullihora",
+    tagline: "Pullihora",
     image: Rishi,
     instagram: "https://www.instagram.com/rishi.____.05/",
   },
