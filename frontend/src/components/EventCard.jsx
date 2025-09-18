@@ -1,5 +1,5 @@
-import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
+import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 
 const EventCard = ({ event, refresh, onEdit }) => {
   const handleEdit = () => {
@@ -10,8 +10,10 @@ const EventCard = ({ event, refresh, onEdit }) => {
     if (window.confirm("Are you sure you want to delete this event?")) {
       try {
         await fetch(`/api/events/${event._id}`, {
-          method: 'DELETE',
-          headers: { Authorization: `Bearer ${localStorage.getItem("userToken")}` },
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+          },
         });
         refresh();
       } catch (error) {
@@ -26,7 +28,11 @@ const EventCard = ({ event, refresh, onEdit }) => {
       transition={{ type: "spring", stiffness: 300 }}
       className="bg-white rounded-xl shadow-lg overflow-hidden flex flex-col items-center p-6 border-2 border-transparent hover:border-brand-primary cursor-pointer"
     >
-      <Link to={`/events/${event._id}`} className="w-full flex flex-col items-center">
+      <Link
+        to={`/events/${event._id}`}
+        key={event._id}
+        className="w-full flex flex-col items-center"
+      >
         {event.eventImage && (
           <img
             src={event.eventImage}

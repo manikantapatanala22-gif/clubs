@@ -11,7 +11,7 @@ router.get("/", openingList);
 // Protected Routes (Club Members)
 router.get("/my", protect, myOpenings);
 router.post("/", protect, upload.single('image'), openingPost);
-router.put("/:id", protect, openingEdit);
+router.put("/:id", protect, upload.single('image'), openingEdit);
 router.delete("/:id", protect, openingDeletion);
 
 export default router;

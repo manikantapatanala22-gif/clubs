@@ -9,6 +9,7 @@ export default function ClubManagement() {
     tagline: "",
     description: "",
     imageUrl: null,
+    eventImage: null,
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -32,6 +33,8 @@ export default function ClubManagement() {
   const handleChange = (e) => {
     if (e.target.name === "imageUrl") {
       setFormData({ ...formData, imageUrl: e.target.files[0] });
+    } else if (e.target.name === "eventImage") {
+      setFormData({ ...formData, eventImage: e.target.files[0] });
     } else {
       setFormData({ ...formData, [e.target.name]: e.target.value });
     }
@@ -47,9 +50,10 @@ export default function ClubManagement() {
       formDataToSend.append("name", formData.name);
       formDataToSend.append("tagline", formData.tagline);
       formDataToSend.append("description", formData.description);
-      if (formData.imageUrl) {
+      if (formData.imageUrl)
         formDataToSend.append("imageUrl", formData.imageUrl);
-      }
+      if (formData.eventImage)
+        formDataToSend.append("eventImage", formData.eventImage);
 
       if (editingClubId) {
         await axios.put(`/api/admin/clubs/${editingClubId}`, formDataToSend, {
@@ -67,7 +71,12 @@ export default function ClubManagement() {
         });
       }
 
-      setFormData({ name: "", tagline: "", description: "", imageUrl: null });
+      setFormData({
+        name: "",
+        tagline: "",
+        description: "",
+        imageUrl: null,
+      });
       setEditingClubId(null);
       fetchClubs();
     } catch (err) {
@@ -102,10 +111,14 @@ export default function ClubManagement() {
 
   return (
     <div className="max-w-4xl mx-auto p-8">
-      <h1 className="text-3xl font-bold text-brand-primary mb-6">Manage Clubs</h1>
+      <h1 className="text-3xl font-bold text-brand-primary mb-6">
+        Manage Clubs
+      </h1>
 
       {error && (
-        <div className="mb-4 p-3 bg-red-100 text-red-600 rounded-md">{error}</div>
+        <div className="mb-4 p-3 bg-red-100 text-red-600 rounded-md">
+          {error}
+        </div>
       )}
 
       <form onSubmit={handleSubmit} className="mb-8 space-y-4">
@@ -157,13 +170,24 @@ export default function ClubManagement() {
           disabled={loading}
           className="bg-brand-primary text-white py-3 px-6 rounded-md hover:bg-brand-secondary"
         >
-          {loading ? (editingClubId ? "Updating..." : "Creating...") : (editingClubId ? "Update Club" : "Create Club")}
+          {loading
+            ? editingClubId
+              ? "Updating..."
+              : "Creating..."
+            : editingClubId
+            ? "Update Club"
+            : "Create Club"}
         </button>
         {editingClubId && (
           <button
             type="button"
             onClick={() => {
-              setFormData({ name: "", tagline: "", description: "", imageUrl: null });
+              setFormData({
+                name: "",
+                tagline: "",
+                description: "",
+                imageUrl: null,
+              });
               setEditingClubId(null);
               setError(null);
             }}
@@ -176,7 +200,10 @@ export default function ClubManagement() {
 
       <div className="space-y-4">
         {clubs.map((club) => (
-          <div key={club._id} className="p-4 border rounded-md flex justify-between items-center">
+          <div
+            key={club._id}
+            className="p-4 border rounded-md flex justify-between items-center"
+          >
             <div>
               <h2 className="text-xl font-semibold">{club.name}</h2>
               <p className="text-sm text-gray-600">{club.tagline}</p>

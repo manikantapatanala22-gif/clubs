@@ -22,9 +22,10 @@ const newEventSchema = mongoose.Schema({
     required: true,
   },
   createdBy: {
-    type: mongoose.Schema.Types.ObjectId,
-    required: true,
-    ref: 'User',
+    type: String,
+  },
+  eventFormUrl: {
+    type: String,
   },
 });
 

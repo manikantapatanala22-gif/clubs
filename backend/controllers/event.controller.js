@@ -1,5 +1,5 @@
 import NewEvent from "../models/eventregistration.model.js";
-import { cloudinary } from '../config/cloudinary.js';
+import { cloudinary } from "../config/cloudinary.js";
 
 // Lists all events (Public)
 export const eventsList = async (req, res) => {
@@ -15,7 +15,8 @@ export const eventsList = async (req, res) => {
 // Posts a new event (Protected - Club Member)
 export const eventsPost = async (req, res) => {
   try {
-    const { eventName, eventDate, eventVenue, eventDescription } = req.body;
+    const { eventName, eventDate, eventVenue, eventDescription, eventFormUrl } =
+      req.body;
     const { _id } = req.user; // Get user ID from the protected middleware
 
     let imageUrl = null;
@@ -29,6 +30,7 @@ export const eventsPost = async (req, res) => {
       eventDate,
       eventVenue,
       eventDescription,
+      eventFormUrl,
       eventImage: imageUrl,
       createdBy: _id, // Link to the creator
     });
@@ -50,7 +52,9 @@ export const eventDeletion = async (req, res) => {
 
     // Check if the logged-in user is the creator
     if (event.createdBy.toString() !== req.user._id.toString()) {
-      return res.status(401).json({ message: "Not authorized to delete this event" });
+      return res
+        .status(401)
+        .json({ message: "Not authorized to delete this event" });
     }
 
     await event.deleteOne();
@@ -80,13 +84,20 @@ export const eventEdit = async (req, res) => {
 
     // Check if the logged-in user is the creator
     if (event.createdBy.toString() !== req.user._id.toString()) {
-      return res.status(401).json({ message: "Not authorized to edit this event" });
+      return res
+        .status(401)
+        .json({ message: "Not authorized to edit this event" });
     }
 
-    const editDetails = await NewEvent.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-      runValidators: true,
-    });
+    const editDetails = await NewEvent.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
+    if (!editDetails) return res.status(400).json({ message: "Edit Failed!" });
     res.status(200).json(editDetails);
   } catch (error) {
     res.status(500).json({ message: error.message });

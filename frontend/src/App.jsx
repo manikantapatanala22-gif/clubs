@@ -14,6 +14,7 @@ import DashBoard from "./pages/DashBoard";
 import Footer from "./components/Footer";
 import ClubDetail from "./pages/ClubDetail";
 import { AnimatePresence } from "framer-motion";
+import EventDetail from "./pages/EventDetail";
 
 function App() {
   const location = useLocation();
@@ -29,6 +30,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/events" element={<Events />} />
             <Route path="/clubs" element={<Clubs />} />
+            <Route path="/events/:id" element={<EventDetail />} />
             <Route path="/clubs/:id" element={<ClubDetail />} />
             <Route path="/our-team" element={<Team />} />
             <Route path="/support" element={<Support />} />

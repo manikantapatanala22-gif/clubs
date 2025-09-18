@@ -5,6 +5,7 @@ const clubSchema = new mongoose.Schema({
   tagline: { type: String },
   description: { type: String },
   imageUrl: { type: String },
+  eventImage: { type: String },
 });
 
 const Club = mongoose.model('Club', clubSchema);

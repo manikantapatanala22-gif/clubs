@@ -78,3 +78,82 @@ export const deleteUser = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+// Get all clubs (Admin-only)
+export const getClubs = async (req, res) => {
+  try {
+    const clubs = await Club.find();
+    res.status(200).json(clubs);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// Create a new club (Admin-only)
+export const createClub = async (req, res) => {
+  try {
+    const { name, tagline, description } = req.body;
+
+    let imageUrl = null;
+    let eventImage = null;
+    if (req.file) {
+      const result = await cloudinary.uploader.upload(req.file.path);
+      imageUrl = result.secure_url;
+    }
+
+    const newClub = await Club.create({
+      name,
+      tagline,
+      description,
+      imageUrl,
+      eventImage,
+    });
+
+    res.status(201).json(newClub);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// Update a club (Admin-only)
+export const updateClub = async (req, res) => {
+  try {
+    const { name, tagline, description } = req.body;
+
+    let imageUrl = undefined;
+    let eventImage = undefined;
+    if (req.file) {
+      const result = await cloudinary.uploader.upload(req.file.path);
+      imageUrl = result.secure_url;
+    }
+
+    const updatedClub = await Club.findByIdAndUpdate(
+      req.params.id,
+      { name, tagline, description, imageUrl, eventImage },
+      { new: true, runValidators: true }
+    );
+
+    if (!updatedClub) {
+      return res.status(404).json({ message: "Club not found" });
+    }
+
+    res.status(200).json(updatedClub);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// Delete a club (Admin-only)
+export const deleteClub = async (req, res) => {
+  try {
+    const deletedClub = await Club.findByIdAndDelete(req.params.id);
+
+    if (!deletedClub) {
+      return res.status(404).json({ message: "Club not found" });
+    }
+
+    res.status(200).json({ message: "Club deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
