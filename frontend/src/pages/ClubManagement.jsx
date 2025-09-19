@@ -1,43 +1,37 @@
-// src/pages/ClubManagement.jsx
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 export default function ClubManagement() {
-  const [clubs, setClubs] = useState([]);
+  const [clubAccounts, setClubAccounts] = useState([]);
   const [formData, setFormData] = useState({
-    name: "",
-    tagline: "",
-    description: "",
-    imageUrl: null,
-    eventImage: null,
+    clubName: "",
+    username: "",
+    email: "",
+    password: "",
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [editingClubId, setEditingClubId] = useState(null);
+  const [editingAccountId, setEditingAccountId] = useState(null);
 
-  const authToken = localStorage.getItem("userToken");
+  const authToken = localStorage.getItem("adminToken"); // Assuming admin token is stored here
 
   useEffect(() => {
-    fetchClubs();
+    fetchClubAccounts();
   }, []);
 
-  const fetchClubs = async () => {
+  const fetchClubAccounts = async () => {
     try {
-      const response = await axios.get("/api/clubs");
-      setClubs(response.data);
+      const response = await axios.get("/api/admin/club-accounts", {
+        headers: { Authorization: `Bearer ${authToken}` },
+      });
+      setClubAccounts(response.data);
     } catch (err) {
-      setError("Failed to fetch clubs");
+      setError("Failed to fetch club accounts");
     }
   };
 
   const handleChange = (e) => {
-    if (e.target.name === "imageUrl") {
-      setFormData({ ...formData, imageUrl: e.target.files[0] });
-    } else if (e.target.name === "eventImage") {
-      setFormData({ ...formData, eventImage: e.target.files[0] });
-    } else {
-      setFormData({ ...formData, [e.target.name]: e.target.value });
-    }
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
@@ -46,73 +40,62 @@ export default function ClubManagement() {
     setError(null);
 
     try {
-      const formDataToSend = new FormData();
-      formDataToSend.append("name", formData.name);
-      formDataToSend.append("tagline", formData.tagline);
-      formDataToSend.append("description", formData.description);
-      if (formData.imageUrl)
-        formDataToSend.append("imageUrl", formData.imageUrl);
-      if (formData.eventImage)
-        formDataToSend.append("eventImage", formData.eventImage);
-
-      if (editingClubId) {
-        await axios.put(`/api/admin/clubs/${editingClubId}`, formDataToSend, {
+      if (editingAccountId) {
+        await axios.put(`/api/admin/club-accounts/${editingAccountId}`, formData, {
           headers: {
             Authorization: `Bearer ${authToken}`,
-            "Content-Type": "multipart/form-data",
           },
         });
       } else {
-        await axios.post("/api/admin/clubs", formDataToSend, {
+        await axios.post("/api/admin/club-accounts", formData, {
           headers: {
             Authorization: `Bearer ${authToken}`,
-            "Content-Type": "multipart/form-data",
           },
         });
       }
 
       setFormData({
-        name: "",
-        tagline: "",
-        description: "",
-        imageUrl: null,
+        clubName: "",
+        username: "",
+        email: "",
+        password: "",
       });
-      setEditingClubId(null);
-      fetchClubs();
+      setEditingAccountId(null);
+      fetchClubAccounts();
     } catch (err) {
-      setError(err.response?.data?.message || "Failed to save club");
+      setError(err.response?.data?.message || "Failed to save club account");
     } finally {
       setLoading(false);
     }
   };
 
-  const handleEdit = (club) => {
+  const handleEdit = (account) => {
     setFormData({
-      name: club.name,
-      tagline: club.tagline,
-      description: club.description,
-      imageUrl: null,
+      clubName: account.clubName,
+      username: account.username,
+      email: account.email,
+      password: "", // Do not pre-fill password
     });
-    setEditingClubId(club._id);
+    setEditingAccountId(account._id);
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm("Are you sure you want to delete this club?")) return;
+    if (!window.confirm("Are you sure you want to delete this club account?")) return;
 
     try {
-      await axios.delete(`/api/admin/clubs/${id}`, {
+      await axios.delete(`/api/admin/club-accounts/${id}`, {
         headers: { Authorization: `Bearer ${authToken}` },
       });
-      fetchClubs();
+      fetchClubAccounts();
     } catch (err) {
-      setError(err.response?.data?.message || "Failed to delete club");
+      setError(err.response?.data?.message || "Failed to delete club account");
     }
   };
 
   return (
     <div className="max-w-4xl mx-auto p-8">
       <h1 className="text-3xl font-bold text-brand-primary mb-6">
-        Manage Clubs
+        Manage Club Accounts
       </h1>
 
       {error && (
@@ -123,46 +106,47 @@ export default function ClubManagement() {
 
       <form onSubmit={handleSubmit} className="mb-8 space-y-4">
         <div>
-          <label className="block font-semibold mb-1">Name</label>
+          <label className="block font-semibold mb-1">Club Name</label>
           <input
             type="text"
-            name="name"
+            name="clubName"
             required
-            value={formData.name}
+            value={formData.clubName}
             onChange={handleChange}
             className="w-full px-4 py-2 border rounded-md"
           />
         </div>
         <div>
-          <label className="block font-semibold mb-1">Tagline</label>
+          <label className="block font-semibold mb-1">Username</label>
           <input
             type="text"
-            name="tagline"
+            name="username"
             required
-            value={formData.tagline}
+            value={formData.username}
             onChange={handleChange}
             className="w-full px-4 py-2 border rounded-md"
           />
         </div>
         <div>
-          <label className="block font-semibold mb-1">Description</label>
-          <textarea
-            name="description"
-            required
-            rows={4}
-            value={formData.description}
-            onChange={handleChange}
-            className="w-full px-4 py-2 border rounded-md"
-          />
-        </div>
-        <div>
-          <label className="block font-semibold mb-1">Image</label>
+          <label className="block font-semibold mb-1">Email</label>
           <input
-            type="file"
-            name="imageUrl"
-            accept="image/*"
+            type="email"
+            name="email"
+            required
+            value={formData.email}
             onChange={handleChange}
-            className="w-full"
+            className="w-full px-4 py-2 border rounded-md"
+          />
+        </div>
+        <div>
+          <label className="block font-semibold mb-1">Password</label>
+          <input
+            type="password"
+            name="password"
+            required={!editingAccountId} // Password is required only when creating
+            value={formData.password}
+            onChange={handleChange}
+            className="w-full px-4 py-2 border rounded-md"
           />
         </div>
         <button
@@ -171,24 +155,24 @@ export default function ClubManagement() {
           className="bg-brand-primary text-white py-3 px-6 rounded-md hover:bg-brand-secondary"
         >
           {loading
-            ? editingClubId
+            ? editingAccountId
               ? "Updating..."
               : "Creating..."
-            : editingClubId
-            ? "Update Club"
-            : "Create Club"}
+            : editingAccountId
+            ? "Update Account"
+            : "Create Account"}
         </button>
-        {editingClubId && (
+        {editingAccountId && (
           <button
             type="button"
             onClick={() => {
               setFormData({
-                name: "",
-                tagline: "",
-                description: "",
-                imageUrl: null,
+                clubName: "",
+                username: "",
+                email: "",
+                password: "",
               });
-              setEditingClubId(null);
+              setEditingAccountId(null);
               setError(null);
             }}
             className="ml-4 bg-gray-500 text-white py-3 px-6 rounded-md hover:bg-gray-600"
@@ -199,24 +183,25 @@ export default function ClubManagement() {
       </form>
 
       <div className="space-y-4">
-        {clubs.map((club) => (
+        {clubAccounts.map((account) => (
           <div
-            key={club._id}
+            key={account._id}
             className="p-4 border rounded-md flex justify-between items-center"
           >
             <div>
-              <h2 className="text-xl font-semibold">{club.name}</h2>
-              <p className="text-sm text-gray-600">{club.tagline}</p>
+              <h2 className="text-xl font-semibold">{account.clubName}</h2>
+              <p className="text-sm text-gray-600">{account.username}</p>
+              <p className="text-sm text-gray-500">{account.email}</p>
             </div>
             <div className="space-x-2">
               <button
-                onClick={() => handleEdit(club)}
+                onClick={() => handleEdit(account)}
                 className="bg-blue-600 text-white py-1 px-3 rounded hover:bg-blue-700"
               >
                 Edit
               </button>
               <button
-                onClick={() => handleDelete(club._id)}
+                onClick={() => handleDelete(account._id)}
                 className="bg-red-600 text-white py-1 px-3 rounded hover:bg-red-700"
               >
                 Delete

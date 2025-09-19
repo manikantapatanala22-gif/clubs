@@ -2,6 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
+import { authenticate, authorizeRoles } from './middleware/auth.middleware.js';
 dotenv.config();
 
 const app = express();
@@ -28,6 +29,12 @@ dbConnection();
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 
+// Log all incoming requests
+app.use((req, res, next) => {
+  console.log(`Incoming Request: ${req.method} ${req.url}`);
+  next();
+});
+
 //routes
 import AuthRoutes from './routes/auth.route.js';
 import ClubRoutes from './routes/club.route.js';
@@ -44,12 +51,11 @@ app.use('/api/openings', OpeningRoutes);
 app.use('/api/auth', AuthRoutes);
 
 // Protected Routes (Club Members)
-app.use('/api/club-members/events', EventRoutes);
-app.use('/api/club-members/openings', OpeningRoutes);
+app.use('/api/club-members/events', authenticate, EventRoutes);
+app.use('/api/club-members/openings', authenticate, OpeningRoutes);
 
 // Protected Routes (Admin)
-import { protect } from './middleware/auth.middleware.js';
-app.use('/api/admin', protect, AdminRoutes);
+app.use('/api/admin', authenticate, authorizeRoles('admin'), AdminRoutes);
 
 //running on the port
 const port = process.env.PORT;

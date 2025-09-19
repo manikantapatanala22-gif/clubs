@@ -1,5 +1,5 @@
 // src/pages/Login.jsx
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react"; // Import useEffect
 import { motion } from "framer-motion";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -20,6 +20,15 @@ export default function Login() {
 
   const navigate = useNavigate();
 
+  // Check for existing login on component mount
+  useEffect(() => {
+    const userToken = localStorage.getItem("userToken");
+    const userRole = localStorage.getItem("userRole");
+    if (userToken && userRole === 'club') {
+      navigate("/dashboard");
+    }
+  }, [navigate]); // Dependency array includes navigate to prevent lint warnings
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -37,13 +46,10 @@ export default function Login() {
       
       localStorage.setItem("userToken", response.data.token);
       localStorage.setItem("userEmail", response.data.email);
-      localStorage.setItem("isAdmin", response.data.isAdmin);
+      localStorage.setItem("userRole", response.data.role); // Store the role
 
-      if (response.data.isAdmin) {
-        navigate("/admin");
-      } else {
-        navigate("/dashboard");
-      }
+      // Always navigate to dashboard for club users
+      navigate("/dashboard");
 
     } catch (err) {
       setError(

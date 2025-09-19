@@ -1,12 +1,25 @@
 import Opening from "../models/opening.model.js";
 import { cloudinary } from '../config/cloudinary.js';
 
+// Get a single opening by ID (Public)
+export const openingById = async (req, res) => {
+  try {
+    const opening = await Opening.findById(req.params.id);
+    if (opening) {
+      res.status(200).json(opening);
+    } else {
+      res.status(404).json({ message: "Opening not found" });
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 // Lists all openings (Public)
 export const openingList = async (req, res) => {
   try {
     const allOpenings = await Opening.find();
-    if (allOpenings) res.status(200).json(allOpenings);
-    else res.status(400).json({ message: "No Openings Listed !" });
+    res.status(200).json(allOpenings);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -63,9 +76,10 @@ export const openingDeletion = async (req, res) => {
 // Get openings created by the logged-in user (Protected - Club Member)
 export const myOpenings = async (req, res) => {
   try {
-    const openings = await Opening.find({ createdBy: req.user._id });
+    const openings = await Opening.find({ createdBy: req.user._id }).populate('createdBy', 'username email clubName');
     res.status(200).json(openings);
   } catch (error) {
+    console.error("Error in myOpenings:", error);
     res.status(500).json({ message: error.message });
   }
 };

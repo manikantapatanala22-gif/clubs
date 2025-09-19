@@ -1,32 +1,20 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 
-const EventCard = ({ event, refresh, onEdit }) => {
+const EventCard = ({ event, refresh, onEdit, onDelete }) => {
   const handleEdit = () => {
     if (onEdit) onEdit();
   };
 
-  const handleDelete = async () => {
-    if (window.confirm("Are you sure you want to delete this event?")) {
-      try {
-        await fetch(`/api/events/${event._id}`, {
-          method: "DELETE",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("userToken")}`,
-          },
-        });
-        refresh();
-      } catch (error) {
-        alert("Failed to delete event");
-      }
-    }
+  const handleDeleteClick = () => {
+    if (onDelete) onDelete();
   };
 
   return (
     <motion.div
       whileHover={{ scale: 1.05 }}
       transition={{ type: "spring", stiffness: 300 }}
-      className="bg-white rounded-xl shadow-lg overflow-hidden flex flex-col items-center p-6 border-2 border-transparent hover:border-brand-primary cursor-pointer"
+      className="bg-white rounded-xl shadow-lg overflow-hidden flex flex-col items-center p-6 border-2 border-transparent hover:border-brand-accent transition-all duration-300"
     >
       <Link
         to={`/events/${event._id}`}
@@ -46,6 +34,29 @@ const EventCard = ({ event, refresh, onEdit }) => {
         <p className="text-gray-600 text-center mt-2">{event.eventDate}</p>
         <p className="text-gray-500 text-center text-sm">{event.eventVenue}</p>
       </Link>
+
+      <div className="flex space-x-2 mt-4">
+        {/* Details Button */}
+        <Link
+          to={`/events/${event._id}`}
+         className="block mt-4 lg:inline-block lg:mt-0 text-white font-bold transition lg:ml-4 py-2 px-4 rounded-full bg-brand-accent hover:bg-white hover:text-brand-accent border-2 border-transparent hover:border-brand-accent duration-300"
+          >
+          Details
+        </Link>
+
+        {/* Register Button */}
+        {event.eventFormUrl && (
+          <a
+            href={event.eventFormUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="block mt-4 lg:inline-block lg:mt-0 text-white font-bold transition lg:ml-4 py-2 px-4 rounded-full bg-brand-accent hover:bg-white hover:text-brand-accent border-2 border-transparent hover:border-brand-accent duration-300"
+          >
+            Register
+          </a>
+        )}
+      </div>
+
       {refresh && (
         <div className="flex space-x-2 mt-4">
           <button
@@ -55,7 +66,7 @@ const EventCard = ({ event, refresh, onEdit }) => {
             Edit
           </button>
           <button
-            onClick={handleDelete}
+            onClick={handleDeleteClick}
             className="bg-red-500 text-white py-1 px-3 rounded hover:bg-red-600"
           >
             Delete

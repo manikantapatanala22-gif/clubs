@@ -17,22 +17,15 @@ const userSchema = mongoose.Schema(
                type: String,
                required: [true, "Password is required !"],
           },
-          name: {
-               type: String,
-               required: [true, "Name is required !"],
-          },
-          bio: {
+          clubName: {
                type: String,
                required: false,
           },
-          image: {
+          role: {
                type: String,
-               required: false,
-          },
-          isAdmin: {
-               type: Boolean,
                required: true,
-               default: false,
+               enum: ['user', 'club', 'admin'],
+               default: 'user',
           }
      },
      {

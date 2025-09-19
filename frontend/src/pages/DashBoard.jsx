@@ -1,75 +1,115 @@
-// src/pages/DashBoard.jsx
+// src/pages/Dashboard.jsx
 import React, { useState, useContext, useEffect } from 'react';
 import { DataContext } from '../context/DataContext';
 import PostForm from '../components/PostForm';
 import EventCard from '../components/EventCard';
 import OpeningCard from '../components/OpeningCard';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const Dashboard = () => {
     const [selectedOption, setSelectedOption] = useState(null);
     const [events, setEvents] = useState([]);
     const [openings, setOpenings] = useState([]);
+    const [authToken, setAuthToken] = useState(null);
+    const [isAdmin, setIsAdmin] = useState(false);
     const { fetchAllData } = useContext(DataContext);
     const navigate = useNavigate();
+    const location = useLocation();
 
-    // Retrieve the token and admin status from localStorage
-    const authToken = localStorage.getItem("userToken");
-    const isAdmin = localStorage.getItem("isAdmin") === "true";
-
-    // Redirect to login if no token exists
+    // If navigated with state to edit an item, set selectedOption accordingly
     useEffect(() => {
-        if (!authToken) {
-            navigate("/for-clubs");
+        if (location.state && location.state.selectedOption) {
+            setSelectedOption(location.state.selectedOption);
+            window.history.replaceState({}, document.title);
         }
-    }, [authToken, navigate]);
+    }, [location.state]);
 
-    // Fetch events and openings created by the logged-in club user
+    // Initialize token and admin status from localStorage
     useEffect(() => {
-        if (!isAdmin && authToken) {
-            const fetchMyData = async () => {
-                try {
-                    const eventsResponse = await fetch('/api/events/my', {
-                        headers: { Authorization: `Bearer ${authToken}` },
-                    });
-                    const eventsData = await eventsResponse.json();
-                    setEvents(eventsData);
+        const token = localStorage.getItem("userToken");
+        const adminStatus = localStorage.getItem("isAdmin") === "true";
+        if (!token) {
+            navigate("/for-clubs");
+        } else {
+            setAuthToken(token);
+            setIsAdmin(adminStatus);
+        }
+    }, [navigate]);
 
-                    const openingsResponse = await fetch('/api/openings/my', {
-                        headers: { Authorization: `Bearer ${authToken}` },
-                    });
-                    const openingsData = await openingsResponse.json();
-                    setOpenings(openingsData);
-                } catch (error) {
-                    console.error("Error fetching club data:", error);
-                }
-            };
-            fetchMyData();
+    // Fetch events and openings for logged-in club member
+    const fetchMyData = async (token) => {
+        if (!token || isAdmin) return;
+
+        try {
+            const eventsResponse = await fetch('/api/club-members/events/my', {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+            const eventsData = await eventsResponse.json();
+            setEvents(eventsData);
+
+            const openingsResponse = await fetch('/api/club-members/openings/my', {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+            const openingsData = await openingsResponse.json();
+            setOpenings(openingsData);
+        } catch (error) {
+            console.error("Error fetching club data:", error);
+        }
+    };
+
+    useEffect(() => {
+        if (authToken) {
+            fetchMyData(authToken);
         }
     }, [authToken, isAdmin]);
 
     const handleFormSubmission = async () => {
         await fetchAllData();
         setSelectedOption(null);
-        // Refresh the events and openings after create/update/delete
-        if (!isAdmin && authToken) {
-            try {
-                const eventsResponse = await fetch('/api/events/my', {
-                    headers: { Authorization: `Bearer ${authToken}` },
-                });
-                const eventsData = await eventsResponse.json();
-                setEvents(eventsData);
+        fetchMyData(authToken);
+    };
 
-                const openingsResponse = await fetch('/api/openings/my', {
-                    headers: { Authorization: `Bearer ${authToken}` },
-                });
-                const openingsData = await openingsResponse.json();
-                setOpenings(openingsData);
-            } catch (error) {
-                console.error("Error refreshing club data:", error);
-            }
+    const handleDeleteEvent = async (eventId) => {
+        if (!authToken) return;
+        if (!window.confirm("Are you sure you want to delete this event?")) return;
+
+        try {
+            const response = await fetch(`/api/club-members/events/${eventId}`, {
+                method: 'DELETE',
+                headers: { Authorization: `Bearer ${authToken}` },
+            });
+            if (response.ok) fetchMyData(authToken);
+        } catch (error) {
+            console.error("Error deleting event:", error);
         }
     };
+
+    const handleDeleteOpening = async (openingId) => {
+        if (!authToken) return;
+        if (!window.confirm("Are you sure you want to delete this opening?")) return;
+
+        try {
+            const response = await fetch(`/api/club-members/openings/${openingId}`, {
+                method: 'DELETE',
+                headers: { Authorization: `Bearer ${authToken}` },
+            });
+            if (response.ok) fetchMyData(authToken);
+        } catch (error) {
+            console.error("Error deleting opening:", error);
+        }
+    };
+
+    const handleLogout = () => {
+        localStorage.removeItem("userToken");
+        localStorage.removeItem("userEmail");
+        localStorage.removeItem("isAdmin");
+        setAuthToken(null);
+        navigate("/for-clubs");
+    };
+
+    if (!authToken) {
+        return null; // Wait until token is loaded
+    }
 
     if (selectedOption) {
         return (
@@ -90,13 +130,6 @@ const Dashboard = () => {
         );
     }
 
-    const handleLogout = () => {
-        localStorage.removeItem("userToken");
-        localStorage.removeItem("userEmail");
-        localStorage.removeItem("isAdmin");
-        navigate("/for-clubs");
-    };
-
     return (
         <div className="container mx-auto p-8 text-center">
             <div className="flex justify-end mb-4">
@@ -107,14 +140,16 @@ const Dashboard = () => {
                     Logout
                 </button>
             </div>
+
             <h1 className="text-4xl font-bold text-brand-primary mb-8">
                 Club Dashboard
             </h1>
             <p className="text-brand-secondary text-lg mb-8">
                 Welcome to the dashboard. From here, you can manage your events and job openings.
             </p>
+
             <div className="grid gap-8 grid-cols-1 md:grid-cols-2">
-                {/* Event Management Card for Club Members */}
+                {/* Manage Events Card */}
                 <div
                     onClick={() => setSelectedOption('event')}
                     className="bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer flex flex-col items-center justify-center"
@@ -125,7 +160,7 @@ const Dashboard = () => {
                     <h3 className="text-2xl font-semibold text-brand-primary">Manage Events</h3>
                 </div>
 
-                {/* Job Opening Management Card for Club Members */}
+                {/* Manage Openings Card */}
                 <div
                     onClick={() => setSelectedOption('opening')}
                     className="bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer flex flex-col items-center justify-center"
@@ -136,6 +171,8 @@ const Dashboard = () => {
                     <h3 className="text-2xl font-semibold text-brand-primary">Manage Openings</h3>
                 </div>
             </div>
+
+            {/* User Events */}
             <div className="mt-12">
                 <h2 className="text-3xl font-semibold mb-6 text-brand-primary">Your Events</h2>
                 {events.length > 0 ? (
@@ -146,6 +183,7 @@ const Dashboard = () => {
                                 event={event}
                                 refresh={handleFormSubmission}
                                 onEdit={() => setSelectedOption({ type: 'event', item: event })}
+                                onDelete={() => handleDeleteEvent(event._id)}
                             />
                         ))}
                     </div>
@@ -162,6 +200,7 @@ const Dashboard = () => {
                                 opening={opening}
                                 refresh={handleFormSubmission}
                                 onEdit={() => setSelectedOption({ type: 'opening', item: opening })}
+                                onDelete={() => handleDeleteOpening(opening._id)}
                             />
                         ))}
                     </div>
@@ -169,6 +208,7 @@ const Dashboard = () => {
                     <p className="text-brand-secondary">No job openings created yet.</p>
                 )}
             </div>
+
         </div>
     );
 };

@@ -1,17 +1,18 @@
 import express from "express";
-import { openingList, openingPost, myOpenings, openingEdit, openingDeletion } from "../controllers/opening.controller.js";
-import { protect } from '../middleware/auth.middleware.js';
+import { openingList, openingPost, myOpenings, openingEdit, openingDeletion, openingById } from "../controllers/opening.controller.js";
+import { authenticate } from '../middleware/auth.middleware.js';
 import upload from '../middleware/multer.js';
 
 const router = express.Router();
 
 // Public Routes (Visitors)
 router.get("/", openingList);
+router.get("/:id", openingById);
 
 // Protected Routes (Club Members)
-router.get("/my", protect, myOpenings);
-router.post("/", protect, upload.single('image'), openingPost);
-router.put("/:id", protect, upload.single('image'), openingEdit);
-router.delete("/:id", protect, openingDeletion);
+router.get("/my", authenticate, myOpenings);
+router.post("/", authenticate, upload.single('image'), openingPost);
+router.put("/:id", authenticate, upload.single('image'), openingEdit);
+router.delete("/:id", authenticate, openingDeletion);
 
 export default router;

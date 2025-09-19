@@ -15,6 +15,9 @@ import Footer from "./components/Footer";
 import ClubDetail from "./pages/ClubDetail";
 import { AnimatePresence } from "framer-motion";
 import EventDetail from "./pages/EventDetail";
+import OpeningDetail from "./pages/OpeningDetail"; // Import OpeningDetail
+import MyEventsOpenings from "./pages/MyEventsOpenings"; // Import MyEventsOpenings
+import AdminProtectedRoute from "./components/AdminProtectedRoute";
 
 function App() {
   const location = useLocation();
@@ -31,13 +34,17 @@ function App() {
             <Route path="/events" element={<Events />} />
             <Route path="/clubs" element={<Clubs />} />
             <Route path="/events/:id" element={<EventDetail />} />
+            <Route path="/openings/:id" element={<OpeningDetail />} /> {/* Add OpeningDetail route */}
             <Route path="/clubs/:id" element={<ClubDetail />} />
             <Route path="/our-team" element={<Team />} />
             <Route path="/support" element={<Support />} />
             <Route path="/for-clubs" element={<Login />} />
             <Route path="/admin" element={<AdminLogin />} />
-            <Route path="/club-management" element={<ClubManagement />} />
+            <Route path="/admin/dashboard" element={<AdminProtectedRoute />} >
+              <Route index element={<ClubManagement />} />
+            </Route>
             <Route path="/dashboard" element={<DashBoard />} />
+            <Route path="/my-events-openings" element={<MyEventsOpenings />} />
           </Routes>
         </AnimatePresence>
       </main>

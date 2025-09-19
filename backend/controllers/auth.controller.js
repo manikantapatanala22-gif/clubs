@@ -5,8 +5,8 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 // Function to generate a JWT token
-const generateToken = (id) => {
-    return jwt.sign({ id }, process.env.JWT_SECRET, {
+const generateToken = (id, role) => {
+    return jwt.sign({ id, role }, process.env.JWT_SECRET, {
         expiresIn: '1h', // Token expires in 1 hour
     });
 };
@@ -14,9 +14,9 @@ const generateToken = (id) => {
 // Register a new user (only for admin, and only if no admin exists)
 export const registerUser = async (req, res) => {
     try {
-        const { username, email, password, name } = req.body;
+        const { username, email, password } = req.body;
 
-        if (!username || !email || !password || !name) {
+        if (!username || !email || !password) {
             return res.status(400).json({ message: "Please enter all required fields" });
         }
 
@@ -26,19 +26,19 @@ export const registerUser = async (req, res) => {
         }
 
         // Check if an admin already exists
-        const adminExists = await User.findOne({ isAdmin: true });
+        const adminExists = await User.findOne({ role: 'admin' });
         if (adminExists) {
             return res.status(403).json({ message: "Admin already exists. Registration not allowed." });
         }
 
-        const newUser = await User.create({ username, email, password, name, isAdmin: true });
+        const newUser = await User.create({ username, email, password, role: 'admin' });
 
-        const token = generateToken(newUser._id);
+        const token = generateToken(newUser._id, newUser.role);
         res.status(201).json({
             _id: newUser._id,
             username: newUser.username,
             email: newUser.email,
-            isAdmin: newUser.isAdmin,
+            role: newUser.role,
             token,
         });
 
@@ -55,12 +55,12 @@ export const loginUser = async (req, res) => {
         const user = await User.findOne({ email });
 
         if (user && user.password === password) {
-            const token = generateToken(user._id);
+            const token = generateToken(user._id, user.role);
             res.status(200).json({
                 _id: user._id,
                 username: user.username,
                 email: user.email,
-                isAdmin: user.isAdmin,
+                role: user.role,
                 token,
             });
         } else {

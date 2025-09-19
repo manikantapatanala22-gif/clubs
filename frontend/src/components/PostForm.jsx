@@ -53,7 +53,7 @@ const PostForm = ({ type, authToken, onSuccess, item }) => {
         }
       }
 
-      const baseEndpoint = type === "event" ? "/api/events" : "/api/openings";
+      const baseEndpoint = type === "event" ? "/api/club-members/events" : "/api/club-members/openings";
       const endpoint = isEdit ? `${baseEndpoint}/${item._id}` : baseEndpoint;
 
       await axios({

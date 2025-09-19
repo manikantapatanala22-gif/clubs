@@ -1,7 +1,8 @@
 import jwt from 'jsonwebtoken';
 import User from '../models/user.model.js';
 
-const protect = async (req, res, next) => {
+// Middleware to authenticate JWT and attach user to request
+const authenticate = async (req, res, next) => {
     let token;
 
     if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
@@ -20,14 +21,27 @@ const protect = async (req, res, next) => {
             }
 
             next();
+            return; // Ensure no further code runs after next()
         } catch (error) {
             res.status(401).json({ message: "Not authorized, token failed" });
+            return;
         }
     }
 
     if (!token) {
         res.status(401).json({ message: "Not authorized, no token" });
+        return;
     }
 };
 
-export { protect };
+// Middleware to authorize roles
+const authorizeRoles = (...roles) => {
+    return (req, res, next) => {
+        if (!req.user || !roles.includes(req.user.role)) {
+            return res.status(403).json({ message: `Role ${req.user ? req.user.role : 'unauthenticated'} is not authorized to access this resource` });
+        }
+        next();
+    };
+};
+
+export { authenticate, authorizeRoles };
