@@ -128,7 +128,7 @@ const MyEventsOpenings = () => {
       </div>
 
       <div>
-        <h2 className="text-3xl font-semibold mb-6 text-brand-primary">My Job Openings</h2>
+        <h2 className="text-3xl font-semibold mb-6 text-brand-primary">My Openings</h2>
         {openings.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {openings.map(opening => (

@@ -105,20 +105,23 @@ export default function ClubManagement() {
 
   return (
     <div className="max-w-4xl mx-auto p-8">
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-3xl font-bold text-brand-primary">
-          Manage Club Accounts
-        </h1>
-        <button
-          onClick={handleAdminLogout}
-          className="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600"
-        >
-          Logout
-        </button>
-      </div>
+      {/* Header with Title + Logout aligned using flexbox */}
+
+<div className="flex items-center mb-6">
+  <h1 className="text-3xl justify-end font-bold text-brand-primary">
+    Manage Accounts
+  </h1>
+  <br/><br/><br/>
+  <button
+    onClick={handleAdminLogout}
+    className="ml-2.5 bg-zinc-800 text-white py-2 px-4 rounded-full hover:bg-zinc-900 font-bold border border-zinc-900"
+  >
+    Logout
+  </button>
+</div>
 
       {error && (
-        <div className="mb-4 p-3 bg-red-100 text-red-600 rounded-md">
+        <div className="mb-4 p-3 font-bold bg-red-100 text-red-600 rounded-full">
           {error}
         </div>
       )}
@@ -171,7 +174,7 @@ export default function ClubManagement() {
         <button
           type="submit"
           disabled={loading}
-          className="bg-brand-primary text-white py-3 px-6 rounded-md hover:bg-brand-secondary"
+          className="bg-brand-accent font-bold text-white py-3 px-6 rounded-full hover:bg-white hover:font-bold hover:text-brand-accent border border-brand-accent"
         >
           {loading
             ? editingAccountId
@@ -194,7 +197,7 @@ export default function ClubManagement() {
               setEditingAccountId(null);
               setError(null);
             }}
-            className="ml-4 bg-gray-500 text-white py-3 px-6 rounded-md hover:bg-gray-600"
+            className="ml-4 bg-zinc-800 font-bold text-brand-offwhite py-3 px-6 rounded-full hover:bg-zinc-900"
           >
             Cancel
           </button>
@@ -215,13 +218,13 @@ export default function ClubManagement() {
             <div className="space-x-2">
               <button
                 onClick={() => handleEdit(account)}
-                className="bg-blue-600 text-white py-1 px-3 rounded hover:bg-blue-700"
+                className="bg-brand-accent text-white py-1 px-3 rounded-full hover:bg-white hover:text-brand-accent border border-brand-accent"
               >
                 Edit
               </button>
               <button
                 onClick={() => handleDelete(account._id)}
-                className="bg-red-600 text-white py-1 px-3 rounded hover:bg-red-700"
+                className="bg-brand-accent text-white py-1 px-3 rounded-full hover:bg-white hover:text-brand-accent border border-brand-accent"
               >
                 Delete
               </button>

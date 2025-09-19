@@ -136,7 +136,7 @@ const Dashboard = () => {
       <div className="flex justify-end mb-4">
         <button
           onClick={handleLogout}
-          className="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600"
+    className="ml-2.5 bg-zinc-800 text-white py-2 px-4 rounded-full hover:bg-zinc-900 font-bold border border-zinc-900"
         >
           Logout
         </button>
@@ -146,8 +146,7 @@ const Dashboard = () => {
         Club Dashboard
       </h1>
       <p className="text-brand-secondary text-lg mb-8">
-        Welcome to the dashboard. From here, you can manage your events and job
-        openings.
+        Welcome to the dashboard. From here, you can manage your events and openings.
       </p>
 
       <div className="grid gap-8 grid-cols-1 md:grid-cols-2">
@@ -170,11 +169,11 @@ const Dashboard = () => {
             />
           </svg>
           <h3 className="text-2xl font-semibold text-brand-primary">
-            Manage Events
+            Create Events
           </h3>
         </div>
 
-        {/* Manage Openings Card */}
+        {/* Openings Card */}
         <div
           onClick={() => setSelectedOption("opening")}
           className="bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer flex flex-col items-center justify-center"
@@ -193,7 +192,7 @@ const Dashboard = () => {
             />
           </svg>
           <h3 className="text-2xl font-semibold text-brand-primary">
-            Manage Openings
+            Create Openings
           </h3>
         </div>
       </div>
@@ -220,7 +219,7 @@ const Dashboard = () => {
         )}
 
         <h2 className="text-3xl font-semibold mt-12 mb-6 text-brand-primary">
-          Your Job Openings
+          Your Openings
         </h2>
         {openings.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

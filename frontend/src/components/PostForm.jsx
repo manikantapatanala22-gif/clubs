@@ -258,7 +258,7 @@ const PostForm = ({ type, authToken, onSuccess, item }) => {
           <button
             type="submit"
             disabled={loading}
-            className="flex-1 bg-brand-primary text-white py-3 px-6 rounded-md hover:bg-brand-secondary focus:outline-none focus:ring-2 focus:ring-brand-accent disabled:opacity-50"
+          className="bg-brand-accent font-bold text-white py-3 px-6 rounded-full hover:bg-white hover:font-bold hover:text-brand-accent border border-brand-accent"
           >
             {loading
               ? isEdit
@@ -271,7 +271,7 @@ const PostForm = ({ type, authToken, onSuccess, item }) => {
           <button
             type="button"
             onClick={() => onSuccess()}
-            className="flex-1 bg-gray-500 text-white py-3 px-6 rounded-md hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-400"
+            className="ml-4 bg-zinc-700 font-bold text-brand-offwhite py-3 px-6 rounded-full hover:bg-zinc-900"
           >
             Cancel
           </button>

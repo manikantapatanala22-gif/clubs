@@ -61,13 +61,13 @@ const EventCard = ({ event, refresh, onEdit, onDelete }) => {
         <div className="flex space-x-2 mt-4">
           <button
             onClick={handleEdit}
-            className="bg-blue-500 text-white py-1 px-3 rounded hover:bg-blue-600"
+            className="bg-zinc-800 text-white py-1 px-3 rounded-full hover:bg-zinc-900  font-bold text-white py-1 px-3"
           >
             Edit
           </button>
           <button
             onClick={handleDeleteClick}
-            className="bg-red-500 text-white py-1 px-3 rounded hover:bg-red-600"
+            className="bg-zinc-800 text-white py-1 px-3 rounded-full hover:bg-zinc-900  font-bold text-white py-1 px-3"
           >
             Delete
           </button>

@@ -55,7 +55,7 @@ export default function Home() {
         className="container mx-auto p-4"
       >
         <h2 className="text-4xl font-bold text-brand-primary mb-12 text-center">
-          Upcoming Events
+          Ongoing & Upcoming Events
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {events.length > 0 ? (
@@ -66,7 +66,7 @@ export default function Home() {
         </div>
 
         <h2 className="text-4xl font-bold text-brand-primary mt-16 mb-12 text-center">
-          Job Openings
+          Ongoing Club Recruitments
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {openings.length > 0 ? (
