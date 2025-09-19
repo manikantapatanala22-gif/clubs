@@ -41,11 +41,15 @@ export default function ClubManagement() {
 
     try {
       if (editingAccountId) {
-        await axios.put(`/api/admin/club-accounts/${editingAccountId}`, formData, {
-          headers: {
-            Authorization: `Bearer ${authToken}`,
-          },
-        });
+        await axios.put(
+          `/api/admin/club-accounts/${editingAccountId}`,
+          formData,
+          {
+            headers: {
+              Authorization: `Bearer ${authToken}`,
+            },
+          }
+        );
       } else {
         await axios.post("/api/admin/club-accounts", formData, {
           headers: {
@@ -80,7 +84,8 @@ export default function ClubManagement() {
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm("Are you sure you want to delete this club account?")) return;
+    if (!window.confirm("Are you sure you want to delete this club account?"))
+      return;
 
     try {
       await axios.delete(`/api/admin/club-accounts/${id}`, {
@@ -92,11 +97,25 @@ export default function ClubManagement() {
     }
   };
 
+  const handleAdminLogout = () => {
+    localStorage.removeItem("adminToken");
+    localStorage.removeItem("adminRole");
+    window.location.href = "/admin";
+  };
+
   return (
     <div className="max-w-4xl mx-auto p-8">
-      <h1 className="text-3xl font-bold text-brand-primary mb-6">
-        Manage Club Accounts
-      </h1>
+      <div className="flex items-center justify-between mb-6">
+        <h1 className="text-3xl font-bold text-brand-primary">
+          Manage Club Accounts
+        </h1>
+        <button
+          onClick={handleAdminLogout}
+          className="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600"
+        >
+          Logout
+        </button>
+      </div>
 
       {error && (
         <div className="mb-4 p-3 bg-red-100 text-red-600 rounded-md">
