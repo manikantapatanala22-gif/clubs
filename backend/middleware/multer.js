@@ -1,7 +1,12 @@
-import multer from 'multer';
+import multer from "multer";
 
-const storage = multer.diskStorage({}); // Use disk storage or memory storage for simplicity
+// Use disk storage with original filename to ensure req.file.path is available for Cloudinary
+const storage = multer.diskStorage({
+  filename: (_req, file, cb) => {
+    cb(null, `${Date.now()}-${file.originalname}`);
+  },
+});
 
-const upload = multer({ storage: storage });
+const upload = multer({ storage });
 
 export default upload;

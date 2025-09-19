@@ -34,13 +34,14 @@ function App() {
             <Route path="/events" element={<Events />} />
             <Route path="/clubs" element={<Clubs />} />
             <Route path="/events/:id" element={<EventDetail />} />
-            <Route path="/openings/:id" element={<OpeningDetail />} /> {/* Add OpeningDetail route */}
+            <Route path="/openings/:id" element={<OpeningDetail />} />{" "}
+            {/* Add OpeningDetail route */}
             <Route path="/clubs/:id" element={<ClubDetail />} />
             <Route path="/our-team" element={<Team />} />
             <Route path="/support" element={<Support />} />
             <Route path="/for-clubs" element={<Login />} />
             <Route path="/admin" element={<AdminLogin />} />
-            <Route path="/admin/dashboard" element={<AdminProtectedRoute />} >
+            <Route path="/admin/dashboard" element={<AdminProtectedRoute />}>
               <Route index element={<ClubManagement />} />
             </Route>
             <Route path="/dashboard" element={<DashBoard />} />

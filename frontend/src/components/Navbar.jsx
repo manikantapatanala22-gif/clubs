@@ -1,10 +1,27 @@
-import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
 import Logo from "../assets/Logo";
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
+  const [isClubLoggedIn, setIsClubLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const checkLogin = () => {
+      const token = localStorage.getItem("userToken");
+      setIsClubLoggedIn(Boolean(token));
+    };
+    checkLogin();
+    window.addEventListener("storage", checkLogin);
+    return () => window.removeEventListener("storage", checkLogin);
+  }, []);
+
+  useEffect(() => {
+    const token = localStorage.getItem("userToken");
+    setIsClubLoggedIn(Boolean(token));
+  }, [location]);
 
   const links = [
     { name: "Home", path: "/" },
@@ -63,15 +80,14 @@ function Navbar() {
               onClick={() => {
                 setIsOpen(false);
                 const token = localStorage.getItem("userToken");
-                const role = localStorage.getItem("userRole");
-                if (token && role === "club") {
+                if (token) {
                   navigate("/dashboard");
                 } else {
                   navigate("/for-clubs");
                 }
               }}
             >
-              For Clubs
+              {isClubLoggedIn ? "My Club" : "For Clubs"}
             </button>
           </div>
         </div>
