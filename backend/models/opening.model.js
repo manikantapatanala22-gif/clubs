@@ -14,7 +14,7 @@ const openingSchema = mongoose.Schema({
     required: true,
   },
   deadline: {
-    type: String,
+    type: Date,
     required: true,
   },
   image: {
@@ -24,7 +24,11 @@ const openingSchema = mongoose.Schema({
   createdBy: {
     type: mongoose.Schema.Types.ObjectId,
     required: true,
-    ref: 'User',
+    ref: "User",
+  },
+  openingFormUrl: {
+    type: String,
+    required: true,
   },
 });
 

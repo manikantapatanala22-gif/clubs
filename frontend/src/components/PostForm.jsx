@@ -13,6 +13,7 @@ const PostForm = ({ type, authToken, onSuccess, item }) => {
     description: item?.description || "",
     deadline: item?.deadline ? item.deadline.split("T")[0] : "",
     eventFormUrl: item?.eventFormUrl || "",
+    openingFormUrl: item?.openingFormUrl || "",
   });
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -48,12 +49,16 @@ const PostForm = ({ type, authToken, onSuccess, item }) => {
         formDataToSend.append("openingFor", formData.openingFor);
         formDataToSend.append("description", formData.description);
         formDataToSend.append("deadline", formData.deadline);
+        formDataToSend.append("openingFormUrl", formData.openingFormUrl);
         if (image) {
           formDataToSend.append("image", image);
         }
       }
 
-      const baseEndpoint = type === "event" ? "/api/club-members/events" : "/api/club-members/openings";
+      const baseEndpoint =
+        type === "event"
+          ? "/api/club-members/events"
+          : "/api/club-members/openings";
       const endpoint = isEdit ? `${baseEndpoint}/${item._id}` : baseEndpoint;
 
       await axios({
@@ -206,6 +211,19 @@ const PostForm = ({ type, authToken, onSuccess, item }) => {
                 rows={4}
                 className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-brand-accent focus:border-brand-accent"
                 value={formData.description}
+                onChange={handleChange}
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Application Form URL
+              </label>
+              <input
+                type="url"
+                name="openingFormUrl"
+                required
+                className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-brand-accent focus:border-brand-accent"
+                value={formData.openingFormUrl}
                 onChange={handleChange}
               />
             </div>
