@@ -1,6 +1,6 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom'; // Import Link
+import React from "react";
+import { motion } from "framer-motion";
+import { Link } from "react-router-dom"; // Import Link
 
 const OpeningCard = ({ opening, refresh, onEdit, onDelete }) => {
   const handleEdit = () => {
@@ -42,10 +42,20 @@ const OpeningCard = ({ opening, refresh, onEdit, onDelete }) => {
         {/* Details Button */}
         <Link
           to={`/openings/${opening._id}`}
-          className="bg-blue-500 text-white py-1 px-3 rounded hover:bg-blue-600"
+          className="block mt-4 lg:inline-block lg:mt-0 text-white font-bold transition lg:ml-4 py-2 px-4 rounded-full bg-brand-accent hover:bg-white hover:text-brand-accent border-2 border-transparent hover:border-brand-accent duration-300"
         >
           Details
         </Link>
+        {opening.openingFormUrl && (
+          <a
+            href={opening.openingFormUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="block mt-4 lg:inline-block lg:mt-0 text-white font-bold transition lg:ml-4 py-2 px-4 rounded-full bg-brand-accent hover:bg-white hover:text-brand-accent border-2 border-transparent hover:border-brand-accent duration-300"
+          >
+            Register
+          </a>
+        )}
       </div>
       {refresh && ( // 'refresh' prop is used to conditionally render edit/delete buttons
         <div className="flex space-x-2 mt-4">
