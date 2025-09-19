@@ -1,9 +1,10 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import Logo from "../assets/Logo";
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
 
   const links = [
     { name: "Home", path: "/" },
@@ -24,7 +25,10 @@ function Navbar() {
           <Logo />
         </Link>
         <div className="block lg:hidden">
-          <button onClick={toggleMenu} className="flex items-center px-3 py-2 border rounded text-white border-white hover:text-brand-accent hover:border-brand-accent">
+          <button
+            onClick={toggleMenu}
+            className="flex items-center px-3 py-2 border rounded text-white border-white hover:text-brand-accent hover:border-brand-accent"
+          >
             <svg
               className="fill-current h-3 w-3"
               viewBox="0 0 20 20"
@@ -35,7 +39,11 @@ function Navbar() {
             </svg>
           </button>
         </div>
-        <div className={`w-full block flex-grow lg:flex lg:items-center lg:w-auto ${isOpen ? "block" : "hidden"}`}>
+        <div
+          className={`w-full block flex-grow lg:flex lg:items-center lg:w-auto ${
+            isOpen ? "block" : "hidden"
+          }`}
+        >
           <div className="text-lg lg:flex-grow font-medium text-gray-200 lg:flex lg:justify-center text-center">
             {links.map((link) => (
               <Link
@@ -49,13 +57,22 @@ function Navbar() {
             ))}
           </div>
           <div className="text-center">
-            <Link
-              to="/for-clubs"
+            <button
+              type="button"
               className="block mt-4 lg:inline-block lg:mt-0 text-white font-bold transition lg:ml-4 py-2 px-4 rounded-full bg-brand-accent hover:bg-white hover:text-brand-accent"
-              onClick={() => setIsOpen(false)}
+              onClick={() => {
+                setIsOpen(false);
+                const token = localStorage.getItem("userToken");
+                const role = localStorage.getItem("userRole");
+                if (token && role === "club") {
+                  navigate("/dashboard");
+                } else {
+                  navigate("/for-clubs");
+                }
+              }}
             >
-             For Clubs 
-            </Link>
+              For Clubs
+            </button>
           </div>
         </div>
       </div>
