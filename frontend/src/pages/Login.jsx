@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react"; // Import useEffect
 import { motion } from "framer-motion";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 
 const pageVariants = {
   initial: { opacity: 0, scale: 0.95 },
@@ -15,6 +16,7 @@ export default function Login() {
     email: "",
     password: "",
   });
+  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -24,7 +26,7 @@ export default function Login() {
   useEffect(() => {
     const userToken = localStorage.getItem("userToken");
     const userRole = localStorage.getItem("userRole");
-    if (userToken && userRole === 'club') {
+    if (userToken && userRole === "club") {
       navigate("/dashboard");
     }
   }, [navigate]); // Dependency array includes navigate to prevent lint warnings
@@ -33,24 +35,24 @@ export default function Login() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const toggleShowPassword = () => {
+    setShowPassword((prev) => !prev);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
 
     try {
-      const response = await axios.post(
-        "/api/auth/login",
-        formData
-      );
-      
+      const response = await axios.post("/api/auth/login", formData);
+
       localStorage.setItem("userToken", response.data.token);
       localStorage.setItem("userEmail", response.data.email);
       localStorage.setItem("userRole", response.data.role); // Store the role
 
       // Always navigate to dashboard for club users
       navigate("/dashboard");
-
     } catch (err) {
       setError(
         err.response?.data?.message || "Login failed. Please try again."
@@ -109,7 +111,7 @@ export default function Login() {
             onChange={handleChange}
           />
         </div>
-        <div>
+        <div className="relative">
           <label
             htmlFor="password"
             className="text-sm font-medium text-gray-700 sr-only"
@@ -119,13 +121,25 @@ export default function Login() {
           <input
             id="password"
             name="password"
-            type="password"
+            type={showPassword ? "text" : "password"}
             required
             className="w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-brand-accent focus:border-brand-accent"
             placeholder="Password"
             value={formData.password}
             onChange={handleChange}
           />
+          <button
+            type="button"
+            onClick={toggleShowPassword}
+            className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500"
+            tabIndex={-1}
+          >
+            {showPassword ? (
+              <AiOutlineEyeInvisible size={20} />
+            ) : (
+              <AiOutlineEye size={20} />
+            )}
+          </button>
         </div>
         <div>
           <button

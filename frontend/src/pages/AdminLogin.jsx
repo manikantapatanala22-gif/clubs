@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 
 const pageVariants = {
   initial: { opacity: 0, scale: 0.95 },
@@ -14,12 +15,17 @@ export default function AdminLogin() {
     email: "",
     password: "",
   });
+  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const toggleShowPassword = () => {
+    setShowPassword((prev) => !prev);
   };
 
   const handleSubmit = async (e) => {
@@ -30,7 +36,7 @@ export default function AdminLogin() {
     try {
       const response = await axios.post("/api/admin/login", formData);
 
-      if (response.data.role === 'admin') {
+      if (response.data.role === "admin") {
         localStorage.setItem("adminToken", response.data.token);
         localStorage.setItem("adminRole", response.data.role);
         navigate("/admin/dashboard");
@@ -87,7 +93,7 @@ export default function AdminLogin() {
             onChange={handleChange}
           />
         </div>
-        <div>
+        <div className="relative">
           <label
             htmlFor="password"
             className="text-sm font-medium text-gray-700 sr-only"
@@ -97,13 +103,25 @@ export default function AdminLogin() {
           <input
             id="password"
             name="password"
-            type="password"
+            type={showPassword ? "text" : "password"}
             required
             className="w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-brand-accent focus:border-brand-accent"
             placeholder="Password"
             value={formData.password}
             onChange={handleChange}
           />
+          <button
+            type="button"
+            onClick={toggleShowPassword}
+            className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500"
+            tabIndex={-1}
+          >
+            {showPassword ? (
+              <AiOutlineEyeInvisible size={20} />
+            ) : (
+              <AiOutlineEye size={20} />
+            )}
+          </button>
         </div>
         <div>
           <button
