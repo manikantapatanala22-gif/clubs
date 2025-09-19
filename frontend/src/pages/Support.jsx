@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import questions from "../data/supportData";
 import { motion } from "framer-motion";
 
 const pageVariants = {
@@ -16,33 +17,7 @@ const pageVariants = {
   },
 };
 
-const genericQuestions = [
-  {
-    question: "How do I create a new account?",
-    answer:
-      'To create a new account, simply click on the "Login" button in the top right corner and follow the instructions to sign up. It’s quick and easy!',
-  },
-  {
-    question: "How can I join a club?",
-    answer:
-      'You can join a club by visiting the "Clubs" page, selecting the club you are interested in, and clicking the "Join" button on their page.',
-  },
-  {
-    question: "How do I register for an event?",
-    answer:
-      'Events can be registered for on the "Events" page. Find the event you want to attend and click the "Register" button to secure your spot.',
-  },
-  {
-    question: "What if I forget my password?",
-    answer:
-      'If you forget your password, go to the "Login" page and click on the "Forgot Password" link. We will send you an email with instructions on how to reset it.',
-  },
-  {
-    question: "Is there a mobile app available?",
-    answer:
-      "Currently, there is no dedicated mobile app, but our website is fully responsive and optimized for mobile browsers.",
-  },
-];
+const genericQuestions = questions;
 
 const Support = () => {
   const [openIndex, setOpenIndex] = useState(null);
@@ -61,7 +36,9 @@ const Support = () => {
       className="max-w-4xl mx-auto p-4 md:p-8"
     >
       <div className="text-center mb-10">
-        <h1 className="text-4xl font-extrabold text-brand-primary">Support & FAQ</h1>
+        <h1 className="text-4xl font-extrabold text-brand-primary">
+          Support & FAQ
+        </h1>
         <p className="mt-4 text-brand-secondary text-lg">
           Find answers to the most common questions about ClubConnect.
         </p>
@@ -76,7 +53,9 @@ const Support = () => {
             {/* Question (Accordion Header) */}
             <div
               className={`p-6 cursor-pointer flex justify-between items-center transition-colors duration-200 ${
-                openIndex === index ? "bg-brand-accent text-white" : "bg-white hover:bg-gray-100"
+                openIndex === index
+                  ? "bg-brand-accent text-white"
+                  : "bg-white hover:bg-gray-100"
               }`}
               onClick={() => toggleAccordion(index)}
             >
@@ -89,7 +68,9 @@ const Support = () => {
               </h3>
               <span
                 className={`transform transition-transform duration-300 ${
-                  openIndex === index ? "rotate-180 text-white" : "rotate-0 text-brand-secondary"
+                  openIndex === index
+                    ? "rotate-180 text-white"
+                    : "rotate-0 text-brand-secondary"
                 }`}
               >
                 <svg
@@ -112,12 +93,12 @@ const Support = () => {
             {/* Answer (conditionally rendered) */}
             <div
               className={`p-6 transition-all duration-300 ease-in-out bg-brand-nav ${
-                openIndex === index ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+                openIndex === index
+                  ? "max-h-96 opacity-100"
+                  : "max-h-0 opacity-0"
               }`}
             >
-              <p className="text-gray-400">
-                {item.answer}
-              </p>
+              <p className="text-gray-400">{item.answer}</p>
             </div>
           </div>
         ))}
