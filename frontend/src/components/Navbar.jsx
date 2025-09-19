@@ -7,11 +7,15 @@ function Navbar() {
   const navigate = useNavigate();
   const location = useLocation();
   const [isClubLoggedIn, setIsClubLoggedIn] = useState(false);
+  const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
 
   useEffect(() => {
     const checkLogin = () => {
       const token = localStorage.getItem("userToken");
       setIsClubLoggedIn(Boolean(token));
+      const adminToken = localStorage.getItem("adminToken");
+      const adminRole = localStorage.getItem("adminRole");
+      setIsAdminLoggedIn(Boolean(adminToken && adminRole === "admin"));
     };
     checkLogin();
     window.addEventListener("storage", checkLogin);
@@ -21,6 +25,9 @@ function Navbar() {
   useEffect(() => {
     const token = localStorage.getItem("userToken");
     setIsClubLoggedIn(Boolean(token));
+    const adminToken = localStorage.getItem("adminToken");
+    const adminRole = localStorage.getItem("adminRole");
+    setIsAdminLoggedIn(Boolean(adminToken && adminRole === "admin"));
   }, [location]);
 
   const links = [
@@ -79,15 +86,24 @@ function Navbar() {
               className="block mt-4 lg:inline-block lg:mt-0 text-white font-bold transition lg:ml-4 py-2 px-4 rounded-full bg-brand-accent hover:bg-white hover:text-brand-accent"
               onClick={() => {
                 setIsOpen(false);
-                const token = localStorage.getItem("userToken");
-                if (token) {
+                const adminToken = localStorage.getItem("adminToken");
+                const adminRole = localStorage.getItem("adminRole");
+                const isAdmin = Boolean(adminToken && adminRole === "admin");
+                const userToken = localStorage.getItem("userToken");
+                if (isAdmin) {
+                  navigate("/admin/dashboard");
+                } else if (userToken) {
                   navigate("/dashboard");
                 } else {
                   navigate("/for-clubs");
                 }
               }}
             >
-              {isClubLoggedIn ? "My Club" : "For Clubs"}
+              {isAdminLoggedIn
+                ? "Manage Clubs"
+                : isClubLoggedIn
+                ? "My Club"
+                : "For Clubs"}
             </button>
           </div>
         </div>
