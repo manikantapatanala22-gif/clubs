@@ -80,7 +80,7 @@ const EventDetail = () => {
             href={event.eventFormUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="w-full text-center bg-blue-600 text-white py-3 px-6 rounded-lg text-lg font-semibold hover:bg-blue-700 transition duration-300 ease-in-out transform hover:scale-105"
+            className="block mt-4 text-center lg:inline-block lg:mt-0 text-white font-bold transition lg:ml-4 py-2 px-4 rounded-full bg-brand-accent hover:bg-white hover:text-brand-accent border-2 border-transparent hover:border-brand-accent duration-300"
           >
             Register Now
           </a>
