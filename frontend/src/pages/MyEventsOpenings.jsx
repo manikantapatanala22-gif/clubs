@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import EventCard from '../components/EventCard';
-import OpeningCard from '../components/OpeningCard';
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import EventCard from "../components/EventCard";
+import OpeningCard from "../components/OpeningCard";
+import { apiService } from "../services/api";
 
 const MyEventsOpenings = () => {
   const [events, setEvents] = useState([]);
@@ -21,19 +22,12 @@ const MyEventsOpenings = () => {
     const fetchMyData = async () => {
       try {
         const [eventsResponse, openingsResponse] = await Promise.all([
-          fetch('/api/club-members/events/my', {
-            headers: { Authorization: `Bearer ${authToken}` },
-          }),
-          fetch('/api/club-members/openings/my', {
-            headers: { Authorization: `Bearer ${authToken}` },
-          })
+          apiService.events.getMyEvents(),
+          apiService.openings.getMyOpenings(),
         ]);
 
-        const eventsData = await eventsResponse.json();
-        const openingsData = await openingsResponse.json();
-
-        setEvents(eventsData);
-        setOpenings(openingsData);
+        setEvents(eventsResponse.data);
+        setOpenings(openingsResponse.data);
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {
@@ -48,11 +42,11 @@ const MyEventsOpenings = () => {
     if (window.confirm("Are you sure you want to delete this event?")) {
       try {
         const response = await fetch(`/api/club-members/events/${eventId}`, {
-          method: 'DELETE',
+          method: "DELETE",
           headers: { Authorization: `Bearer ${authToken}` },
         });
         if (response.ok) {
-          setEvents(events.filter(event => event._id !== eventId));
+          setEvents(events.filter((event) => event._id !== eventId));
         } else {
           console.error("Failed to delete event");
         }
@@ -65,12 +59,15 @@ const MyEventsOpenings = () => {
   const handleDeleteOpening = async (openingId) => {
     if (window.confirm("Are you sure you want to delete this opening?")) {
       try {
-        const response = await fetch(`/api/club-members/openings/${openingId}`, {
-          method: 'DELETE',
-          headers: { Authorization: `Bearer ${authToken}` },
-        });
+        const response = await fetch(
+          `/api/club-members/openings/${openingId}`,
+          {
+            method: "DELETE",
+            headers: { Authorization: `Bearer ${authToken}` },
+          }
+        );
         if (response.ok) {
-          setOpenings(openings.filter(opening => opening._id !== openingId));
+          setOpenings(openings.filter((opening) => opening._id !== openingId));
         } else {
           console.error("Failed to delete opening");
         }
@@ -81,11 +78,15 @@ const MyEventsOpenings = () => {
   };
 
   const handleEditEvent = (event) => {
-    navigate('/dashboard', { state: { selectedOption: { type: 'event', item: event } } });
+    navigate("/dashboard", {
+      state: { selectedOption: { type: "event", item: event } },
+    });
   };
 
   const handleEditOpening = (opening) => {
-    navigate('/dashboard', { state: { selectedOption: { type: 'opening', item: opening } } });
+    navigate("/dashboard", {
+      state: { selectedOption: { type: "opening", item: opening } },
+    });
   };
 
   if (loading) {
@@ -99,9 +100,11 @@ const MyEventsOpenings = () => {
   return (
     <div className="container mx-auto p-8">
       <div className="flex justify-between items-center mb-8">
-        <h1 className="text-4xl font-bold text-brand-primary">My Events & Openings</h1>
+        <h1 className="text-4xl font-bold text-brand-primary">
+          My Events & Openings
+        </h1>
         <button
-          onClick={() => navigate('/dashboard')}
+          onClick={() => navigate("/dashboard")}
           className="bg-brand-primary text-white py-2 px-4 rounded hover:bg-brand-secondary"
         >
           Back to Dashboard
@@ -109,10 +112,12 @@ const MyEventsOpenings = () => {
       </div>
 
       <div className="mb-12">
-        <h2 className="text-3xl font-semibold mb-6 text-brand-primary">My Events</h2>
+        <h2 className="text-3xl font-semibold mb-6 text-brand-primary">
+          My Events
+        </h2>
         {events.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {events.map(event => (
+            {events.map((event) => (
               <EventCard
                 key={event._id}
                 event={event}
@@ -128,10 +133,12 @@ const MyEventsOpenings = () => {
       </div>
 
       <div>
-        <h2 className="text-3xl font-semibold mb-6 text-brand-primary">My Openings</h2>
+        <h2 className="text-3xl font-semibold mb-6 text-brand-primary">
+          My Openings
+        </h2>
         {openings.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {openings.map(opening => (
+            {openings.map((opening) => (
               <OpeningCard
                 key={opening._id}
                 opening={opening}

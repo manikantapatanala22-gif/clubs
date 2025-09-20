@@ -5,6 +5,7 @@ import PostForm from "../components/PostForm";
 import EventCard from "../components/EventCard";
 import OpeningCard from "../components/OpeningCard";
 import { useNavigate, useLocation } from "react-router-dom";
+import { apiService } from "../services/api";
 
 const Dashboard = () => {
   const [selectedOption, setSelectedOption] = useState(null);
@@ -41,17 +42,12 @@ const Dashboard = () => {
     if (!token || isAdmin) return;
 
     try {
-      const eventsResponse = await fetch("/api/club-members/events/my", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      const eventsData = await eventsResponse.json();
-      setEvents(eventsData);
-
-      const openingsResponse = await fetch("/api/club-members/openings/my", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      const openingsData = await openingsResponse.json();
-      setOpenings(openingsData);
+      const [eventsResponse, openingsResponse] = await Promise.all([
+        apiService.events.getMyEvents(),
+        apiService.openings.getMyOpenings(),
+      ]);
+      setEvents(eventsResponse.data);
+      setOpenings(openingsResponse.data);
     } catch (error) {
       console.error("Error fetching club data:", error);
     }
@@ -74,11 +70,8 @@ const Dashboard = () => {
     if (!window.confirm("Are you sure you want to delete this event?")) return;
 
     try {
-      const response = await fetch(`/api/club-members/events/${eventId}`, {
-        method: "DELETE",
-        headers: { Authorization: `Bearer ${authToken}` },
-      });
-      if (response.ok) fetchMyData(authToken);
+      await apiService.events.delete(eventId);
+      fetchMyData(authToken);
     } catch (error) {
       console.error("Error deleting event:", error);
     }
@@ -90,11 +83,8 @@ const Dashboard = () => {
       return;
 
     try {
-      const response = await fetch(`/api/club-members/openings/${openingId}`, {
-        method: "DELETE",
-        headers: { Authorization: `Bearer ${authToken}` },
-      });
-      if (response.ok) fetchMyData(authToken);
+      await apiService.openings.delete(openingId);
+      fetchMyData(authToken);
     } catch (error) {
       console.error("Error deleting opening:", error);
     }
@@ -136,7 +126,7 @@ const Dashboard = () => {
       <div className="flex justify-end mb-4">
         <button
           onClick={handleLogout}
-    className="ml-2.5 bg-zinc-800 text-white py-2 px-4 rounded-full hover:bg-zinc-900 font-bold border border-zinc-900"
+          className="ml-2.5 bg-zinc-800 text-white py-2 px-4 rounded-full hover:bg-zinc-900 font-bold border border-zinc-900"
         >
           Logout
         </button>
@@ -146,7 +136,8 @@ const Dashboard = () => {
         Club Dashboard
       </h1>
       <p className="text-brand-secondary text-lg mb-8">
-        Welcome to the dashboard. From here, you can manage your events and openings.
+        Welcome to the dashboard. From here, you can manage your events and
+        openings.
       </p>
 
       <div className="grid gap-8 grid-cols-1 md:grid-cols-2">

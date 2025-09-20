@@ -9,7 +9,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: env.process.VITE_BASE_URL,
+    origin: process.env.VITE_BASE_URL || "http://localhost:5173",
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
