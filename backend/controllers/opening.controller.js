@@ -4,10 +4,7 @@ import { cloudinary } from "../config/cloudinary.js";
 // Get a single opening by ID (Public)
 export const openingById = async (req, res) => {
   try {
-    const opening = await Opening.findById(req.params.id).populate(
-      "createdBy",
-      "username email clubName"
-    );
+    const opening = await Opening.findById(req.params.id);
     if (opening) {
       res.status(200).json(opening);
     } else {
@@ -21,10 +18,7 @@ export const openingById = async (req, res) => {
 // Lists all openings (Public)
 export const openingList = async (req, res) => {
   try {
-    const allOpenings = await Opening.find().populate(
-      "createdBy",
-      "username email clubName"
-    );
+    const allOpenings = await Opening.find();
     res.status(200).json(allOpenings);
   } catch (error) {
     res.status(500).json({ message: error.message });

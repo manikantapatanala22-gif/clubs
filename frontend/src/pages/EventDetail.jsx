@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { apiService } from "../services/api";
-import { addCacheBuster } from "../utils/imageUtils";
 
 const EventDetail = () => {
   const { id } = useParams();
@@ -56,11 +55,7 @@ const EventDetail = () => {
       <div className="bg-white rounded-lg shadow-2xl overflow-hidden flex flex-col md:flex-row">
         <div className="md:w-1/2">
           <img
-            src={
-              event.eventImage
-                ? addCacheBuster(event.eventImage, event.updatedAt)
-                : "https://via.placeholder.com/500"
-            }
+            src={event.eventImage || "https://via.placeholder.com/500"}
             alt={event.eventName}
             className="w-full h-full object-cover"
           />
@@ -73,9 +68,7 @@ const EventDetail = () => {
             <p className="text-lg text-gray-600 mb-4">
               Organized by:{" "}
               <span className="font-semibold text-brand-primary">
-                {event.createdBy?.clubName ||
-                  event.createdBy?.username ||
-                  "A Club"}
+                {event.createdBy?.clubName || "A Club"}
               </span>
             </p>
             <div className="text-md text-gray-700 mb-4">
