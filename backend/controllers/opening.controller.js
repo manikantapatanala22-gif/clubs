@@ -4,7 +4,10 @@ import { cloudinary } from "../config/cloudinary.js";
 // Get a single opening by ID (Public)
 export const openingById = async (req, res) => {
   try {
-    const opening = await Opening.findById(req.params.id);
+    const opening = await Opening.findById(req.params.id).populate(
+      "createdBy",
+      "username email clubName"
+    );
     if (opening) {
       res.status(200).json(opening);
     } else {
@@ -18,7 +21,10 @@ export const openingById = async (req, res) => {
 // Lists all openings (Public)
 export const openingList = async (req, res) => {
   try {
-    const allOpenings = await Opening.find();
+    const allOpenings = await Opening.find().populate(
+      "createdBy",
+      "username email clubName"
+    );
     res.status(200).json(allOpenings);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -106,9 +112,18 @@ export const openingEdit = async (req, res) => {
         .json({ message: "Not authorized to edit this opening" });
     }
 
+    // Prepare update data
+    const updateData = { ...req.body };
+
+    // Handle image upload if a new image is provided
+    if (req.file) {
+      const result = await cloudinary.uploader.upload(req.file.path);
+      updateData.image = result.secure_url;
+    }
+
     const editDetails = await Opening.findByIdAndUpdate(
       req.params.id,
-      req.body,
+      updateData,
       {
         new: true,
         runValidators: true,

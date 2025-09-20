@@ -80,7 +80,10 @@ export const eventDeletion = async (req, res) => {
 // Get events created by the logged-in user (Protected - Club Member)
 export const myEvents = async (req, res) => {
   try {
-    const events = await NewEvent.find({ createdBy: req.user._id }).populate('createdBy', 'username email clubName');
+    const events = await NewEvent.find({ createdBy: req.user._id }).populate(
+      "createdBy",
+      "username email clubName"
+    );
     res.status(200).json(events);
   } catch (error) {
     console.error("Error in myEvents:", error);
@@ -103,9 +106,18 @@ export const eventEdit = async (req, res) => {
         .json({ message: "Not authorized to edit this event" });
     }
 
+    // Prepare update data
+    const updateData = { ...req.body };
+
+    // Handle image upload if a new image is provided
+    if (req.file) {
+      const result = await cloudinary.uploader.upload(req.file.path);
+      updateData.eventImage = result.secure_url;
+    }
+
     const editDetails = await NewEvent.findByIdAndUpdate(
       req.params.id,
-      req.body,
+      updateData,
       {
         new: true,
         runValidators: true,

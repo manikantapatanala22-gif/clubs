@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { apiService } from "../services/api";
+import { addCacheBuster } from "../utils/imageUtils";
 
 const OpeningDetail = () => {
   const { id } = useParams();
@@ -55,7 +56,11 @@ const OpeningDetail = () => {
       <div className="bg-white rounded-lg shadow-2xl overflow-hidden flex flex-col md:flex-row">
         <div className="md:w-1/2">
           <img
-            src={opening.image || "https://via.placeholder.com/500"}
+            src={
+              opening.image
+                ? addCacheBuster(opening.image, opening.updatedAt)
+                : "https://via.placeholder.com/500"
+            }
             alt={opening.role}
             className="w-full h-full object-cover"
           />
@@ -65,6 +70,14 @@ const OpeningDetail = () => {
             <h1 className="text-3xl font-bold text-gray-900 mb-2">
               {opening.role}
             </h1>
+            <p className="text-lg text-gray-600 mb-4">
+              Posted by:{" "}
+              <span className="font-semibold text-brand-primary">
+                {opening.createdBy?.clubName ||
+                  opening.createdBy?.username ||
+                  "A Club"}
+              </span>
+            </p>
             <p className="text-lg text-gray-600 mb-4">
               For:{" "}
               <span className="font-semibold text-brand-primary">
