@@ -14,7 +14,7 @@ const openingSchema = mongoose.Schema({
     required: true,
   },
   deadline: {
-    type: Date,
+    type: String,
     required: true,
   },
   image: {
