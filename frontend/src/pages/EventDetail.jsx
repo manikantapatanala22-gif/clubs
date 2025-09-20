@@ -68,7 +68,7 @@ const EventDetail = () => {
             <p className="text-lg text-gray-600 mb-4">
               Organized by:{" "}
               <span className="font-semibold text-brand-primary">
-                {event.createdBy?.clubName || "A Club"}
+                {event.createdBy?.username || "A Club"}
               </span>
             </p>
             <div className="text-md text-gray-700 mb-4">
