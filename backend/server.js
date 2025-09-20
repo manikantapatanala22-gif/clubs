@@ -45,6 +45,8 @@ import OpeningRoutes from "./routes/opening.route.js";
 import AdminRoutes from "./routes/admin.route.js";
 import { adminLogin } from "./controllers/admin.controller.js";
 
+
+
 // Public Routes (Visitors)
 app.use("/api/clubs", ClubRoutes);
 app.use("/api/events", EventRoutes);
