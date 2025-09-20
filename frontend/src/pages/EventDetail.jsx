@@ -65,12 +65,7 @@ const EventDetail = () => {
             <h1 className="text-3xl font-bold text-gray-900 mb-2">
               {event.eventName}
             </h1>
-            <p className="text-lg text-gray-600 mb-4">
-              Organized by:{" "}
-              <span className="font-semibold text-brand-primary">
-                {event.createdBy?.username || "A Club"}
-              </span>
-            </p>
+
             <div className="text-md text-gray-700 mb-4">
               <p className="mb-2">
                 <span className="font-semibold">Date:</span>{" "}
