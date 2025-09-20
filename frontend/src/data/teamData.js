@@ -8,7 +8,7 @@ import Sahithi from "../assets/team/sahithi.png";
 const teamsData = [
   {
     name: "Richard Gomes",
-    tagline: "Surinder The Bottle",
+    tagline: "Emaindi Ippudu?",
     image: Richie,
     instagram: "https://www.instagram.com/richxiee/",
   },
