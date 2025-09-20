@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { apiService } from "../services/api";
+import { apiService } from "./src/services/api";
 import { addCacheBuster } from "../utils/imageUtils";
 
 const OpeningDetail = () => {
