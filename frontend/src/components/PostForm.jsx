@@ -57,7 +57,8 @@ const PostForm = ({ type, authToken, onSuccess, item }) => {
 
       if (type === "event") {
         if (isEdit) {
-          await apiService.upload(
+          await apiService.uploadWithMethod(
+            "PUT",
             `/api/club-members/events/${item._id}`,
             formDataToSend
           );
@@ -66,7 +67,8 @@ const PostForm = ({ type, authToken, onSuccess, item }) => {
         }
       } else if (type === "opening") {
         if (isEdit) {
-          await apiService.upload(
+          await apiService.uploadWithMethod(
+            "PUT",
             `/api/club-members/openings/${item._id}`,
             formDataToSend
           );

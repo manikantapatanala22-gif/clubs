@@ -86,6 +86,19 @@ export const apiService = {
       },
     }),
 
+  // File upload with custom method
+  uploadWithMethod: (method, url, formData, config = {}) =>
+    api({
+      method,
+      url,
+      data: formData,
+      headers: {
+        ...config.headers,
+        "Content-Type": "multipart/form-data",
+      },
+      ...config,
+    }),
+
   // Auth endpoints
   auth: {
     login: (credentials) => api.post("/api/auth/login", credentials),
