@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import { apiService } from "../services/api";
 
 export default function ClubManagement() {
   const [clubAccounts, setClubAccounts] = useState([]);
@@ -21,9 +21,7 @@ export default function ClubManagement() {
 
   const fetchClubAccounts = async () => {
     try {
-      const response = await axios.get("/api/admin/club-accounts", {
-        headers: { Authorization: `Bearer ${authToken}` },
-      });
+      const response = await apiService.admin.getClubAccounts();
       setClubAccounts(response.data);
     } catch (err) {
       setError("Failed to fetch club accounts");
@@ -41,21 +39,9 @@ export default function ClubManagement() {
 
     try {
       if (editingAccountId) {
-        await axios.put(
-          `/api/admin/club-accounts/${editingAccountId}`,
-          formData,
-          {
-            headers: {
-              Authorization: `Bearer ${authToken}`,
-            },
-          }
-        );
+        await apiService.admin.updateClubAccount(editingAccountId, formData);
       } else {
-        await axios.post("/api/admin/club-accounts", formData, {
-          headers: {
-            Authorization: `Bearer ${authToken}`,
-          },
-        });
+        await apiService.admin.createClubAccount(formData);
       }
 
       setFormData({
@@ -88,9 +74,7 @@ export default function ClubManagement() {
       return;
 
     try {
-      await axios.delete(`/api/admin/club-accounts/${id}`, {
-        headers: { Authorization: `Bearer ${authToken}` },
-      });
+      await apiService.admin.deleteClubAccount(id);
       fetchClubAccounts();
     } catch (err) {
       setError(err.response?.data?.message || "Failed to delete club account");
@@ -107,18 +91,20 @@ export default function ClubManagement() {
     <div className="max-w-4xl mx-auto p-8">
       {/* Header with Title + Logout aligned using flexbox */}
 
-<div className="flex items-center mb-6">
-  <h1 className="text-3xl justify-end font-bold text-brand-primary">
-    Manage Accounts
-  </h1>
-  <br/><br/><br/>
-  <button
-    onClick={handleAdminLogout}
-    className="ml-2.5 bg-zinc-800 text-white py-2 px-4 rounded-full hover:bg-zinc-900 font-bold border border-zinc-900"
-  >
-    Logout
-  </button>
-</div>
+      <div className="flex items-center mb-6">
+        <h1 className="text-3xl justify-end font-bold text-brand-primary">
+          Manage Accounts
+        </h1>
+        <br />
+        <br />
+        <br />
+        <button
+          onClick={handleAdminLogout}
+          className="ml-2.5 bg-zinc-800 text-white py-2 px-4 rounded-full hover:bg-zinc-900 font-bold border border-zinc-900"
+        >
+          Logout
+        </button>
+      </div>
 
       {error && (
         <div className="mb-4 p-3 font-bold bg-red-100 text-red-600 rounded-full">

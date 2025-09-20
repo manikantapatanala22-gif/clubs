@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+import { apiService } from "../services/api";
 
 const PostForm = ({ type, authToken, onSuccess, item }) => {
   const isEdit = !!item;
@@ -55,21 +55,25 @@ const PostForm = ({ type, authToken, onSuccess, item }) => {
         }
       }
 
-      const baseEndpoint =
-        type === "event"
-          ? "/api/club-members/events"
-          : "/api/club-members/openings";
-      const endpoint = isEdit ? `${baseEndpoint}/${item._id}` : baseEndpoint;
-
-      await axios({
-        method: isEdit ? "put" : "post",
-        url: endpoint,
-        data: formDataToSend,
-        headers: {
-          Authorization: `Bearer ${authToken}`,
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      if (type === "event") {
+        if (isEdit) {
+          await apiService.upload(
+            `/api/club-members/events/${item._id}`,
+            formDataToSend
+          );
+        } else {
+          await apiService.upload("/api/club-members/events", formDataToSend);
+        }
+      } else if (type === "opening") {
+        if (isEdit) {
+          await apiService.upload(
+            `/api/club-members/openings/${item._id}`,
+            formDataToSend
+          );
+        } else {
+          await apiService.upload("/api/club-members/openings", formDataToSend);
+        }
+      }
 
       onSuccess();
       setImage(null);
@@ -258,7 +262,7 @@ const PostForm = ({ type, authToken, onSuccess, item }) => {
           <button
             type="submit"
             disabled={loading}
-          className="bg-brand-accent font-bold text-white py-3 px-6 rounded-full hover:bg-white hover:font-bold hover:text-brand-accent border border-brand-accent"
+            className="bg-brand-accent font-bold text-white py-3 px-6 rounded-full hover:bg-white hover:font-bold hover:text-brand-accent border border-brand-accent"
           >
             {loading
               ? isEdit

@@ -1,7 +1,7 @@
 // src/pages/Login.jsx
 import React, { useState, useEffect } from "react"; // Import useEffect
 import { motion } from "framer-motion";
-import axios from "axios";
+import { apiService } from "../services/api";
 import { useNavigate } from "react-router-dom";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 
@@ -45,7 +45,7 @@ export default function Login() {
     setError(null);
 
     try {
-      const response = await axios.post("/api/auth/login", formData);
+      const response = await apiService.auth.login(formData);
 
       localStorage.setItem("userToken", response.data.token);
       localStorage.setItem("userEmail", response.data.email);

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import axios from "axios";
+import { apiService } from "../services/api";
 
 const OpeningDetail = () => {
   const { id } = useParams();
@@ -12,7 +12,7 @@ const OpeningDetail = () => {
     const fetchOpening = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(`/api/openings/${id}`);
+        const response = await apiService.openings.getById(id);
         setOpening(response.data);
         setError(null);
       } catch (error) {
