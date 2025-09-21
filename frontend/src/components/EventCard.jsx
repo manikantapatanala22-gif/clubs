@@ -31,16 +31,20 @@ const EventCard = ({ event, refresh, onEdit, onDelete }) => {
         <h3 className="text-2xl font-semibold text-brand-primary text-center">
           {event.eventName}
         </h3>
+        {event.createdBy && event.createdBy.clubName && (
+          <p className="text-gray-500 text-center text-xs mt-1">
+            <span className="font-medium"></span> {event.createdBy.clubName}
+          </p>
+        )}
         <p className="text-gray-600 text-center mt-2">{event.eventDate}</p>
-        <p className="text-gray-500 text-center text-sm">{event.eventVenue}</p>
       </Link>
 
       <div className="flex space-x-2 mt-4">
         {/* Details Button */}
         <Link
           to={`/events/${event._id}`}
-         className="block mt-4 lg:inline-block lg:mt-0 text-white font-bold transition lg:ml-4 py-2 px-4 rounded-full bg-brand-accent hover:bg-white hover:text-brand-accent border-2 border-transparent hover:border-brand-accent duration-300"
-          >
+          className="block mt-4 lg:inline-block lg:mt-0 text-white font-bold transition lg:ml-4 py-2 px-4 rounded-full bg-brand-accent hover:bg-white hover:text-brand-accent border-2 border-transparent hover:border-brand-accent duration-300"
+        >
           Details
         </Link>
 

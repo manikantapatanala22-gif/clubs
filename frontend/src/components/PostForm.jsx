@@ -14,6 +14,7 @@ const PostForm = ({ type, authToken, onSuccess, item }) => {
     deadline: item?.deadline ? item.deadline.split("T")[0] : "",
     eventFormUrl: item?.eventFormUrl || "",
     openingFormUrl: item?.openingFormUrl || "",
+    organizedBy: item?.createdBy?.clubName || "",
   });
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -176,6 +177,20 @@ const PostForm = ({ type, authToken, onSuccess, item }) => {
                 className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-brand-accent focus:border-brand-accent"
                 value={formData.eventFormUrl}
                 onChange={handleChange}
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Organized By
+              </label>
+              <input
+                type="text"
+                name="organizedBy"
+                required
+                className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-brand-accent focus:border-brand-accent bg-gray-50"
+                value={formData.organizedBy}
+                onChange={handleChange}
+                placeholder="This will be auto-filled with your name"
               />
             </div>
           </>

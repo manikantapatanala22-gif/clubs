@@ -65,13 +65,18 @@ const EventDetail = () => {
             <h1 className="text-3xl font-bold text-gray-900 mb-2">
               {event.eventName}
             </h1>
-
+            {event.createdBy && event.createdBy.clubName && (
+              <p className="mb-2">
+                <span className="font-semibold">Organized By:</span>{" "}
+                {event.createdBy.clubName}
+              </p>
+            )}
             <div className="text-md text-gray-700 mb-4">
               <p className="mb-2">
                 <span className="font-semibold">Date:</span>{" "}
                 {new Date(event.eventDate).toLocaleDateString()}
               </p>
-              <p>
+              <p className="mb-2">
                 <span className="font-semibold">Venue:</span> {event.eventVenue}
               </p>
             </div>
