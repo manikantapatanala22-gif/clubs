@@ -4,7 +4,19 @@ import typography from "@tailwindcss/typography";
 export default {
   content: ["./index.html", "./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        brand: {
+          primary: "#2b2b2b",
+          secondary: "#5c6770",
+          accent: "#00b894",
+          nav: "#2b2b2b",
+          offwhite: "#f5f5f5",
+          offwhite2: "#e8e8e8",
+          accentLight: "#2b9e5b",
+        },
+      },
+    },
   },
   plugins: [typography],
 };
