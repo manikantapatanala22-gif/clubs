@@ -4,7 +4,10 @@ import { cloudinary } from "../config/cloudinary.js";
 // Get a single event by ID (Public)
 export const eventById = async (req, res) => {
   try {
-    const event = await NewEvent.findById(req.params.id);
+    const event = await NewEvent.findById(req.params.id).populate(
+      "createdBy",
+      "username email clubName"
+    );
     if (event) {
       res.status(200).json(event);
     } else {
@@ -18,7 +21,10 @@ export const eventById = async (req, res) => {
 // Lists all events (Public)
 export const eventsList = async (req, res) => {
   try {
-    const newEventsList = await NewEvent.find();
+    const newEventsList = await NewEvent.find().populate(
+      "createdBy",
+      "username email clubName"
+    );
     res.status(200).json(newEventsList);
   } catch (error) {
     res.status(500).json({ message: error.message });
