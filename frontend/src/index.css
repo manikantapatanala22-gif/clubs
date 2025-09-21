@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
-@theme {
+:root {
   --color-brand-primary: #2b2b2b;
   --color-brand-secondary: #5c6770;
   --color-brand-accent: #00b894;

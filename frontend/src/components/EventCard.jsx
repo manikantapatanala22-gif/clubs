@@ -33,7 +33,7 @@ const EventCard = ({ event, refresh, onEdit, onDelete }) => {
         </h3>
         {event.createdBy && event.createdBy.clubName && (
           <p className="text-gray-500 text-center text-xs mt-1">
-            <span className="font-medium"></span> {event.createdBy.clubName}
+            <span className="font-bold"></span> {event.createdBy.clubName}
           </p>
         )}
         <p className="text-gray-600 text-center mt-2">{event.eventDate}</p>
